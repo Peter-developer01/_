@@ -30,7 +30,7 @@ def main():
 	room_id = config.ROOM_ID
 
 	client = chatexchange.client.Client(host_id)
-	client.login(email, password)
+	client.login(config.CRED_EMAIL, config.CRED_PASSWORD)
 
 	room = client.get_room(room_id)
 	room.join()

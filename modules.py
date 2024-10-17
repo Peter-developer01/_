@@ -141,7 +141,7 @@ def cmd_poo(args, message):
         msg = random.choice(_emojis)
         _food.pop()
 
-    msg += (POO_CHAR + " ") * _poo_count
+    msg += ("💩" + " ") * _poo_count
 
     if super_poo:
         count = random.randint(2, 10)
