@@ -38,13 +38,7 @@ def main():
 
 	print("(You are now in room #%s on %s.)" % (room_id, host_id))
 	room.send_message("~ PetlinBOT Online.")
-
-
-	while True:
-		message = input("<< ")
-		room.send_message(message)
-
-	client.logout()
+	#client.logout()
 
 def check_tells(user):
 	tell_list = requests.get(config.TELL_API_URL).json()
