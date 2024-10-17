@@ -11,6 +11,8 @@ import config
 import requests
 from markdownify import markdownify as md
 from datetime import datetime
+import time
+import random
 
 import logging
 import logging.handlers
@@ -38,7 +40,10 @@ def main():
 
 	print("(You are now in room #%s on %s.)" % (room_id, host_id))
 	room.send_message("~ PetlinBOT Online.")
-	#client.logout()
+	while True:
+		print("running. " + str(random.randint(0, 9)))
+		time.sleep(120)
+	client.logout()
 
 def check_tells(user):
 	tell_list = requests.get(config.TELL_API_URL).json()
