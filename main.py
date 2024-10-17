@@ -39,7 +39,7 @@ def main():
 	room.watch(on_message)
 
 	print("(You are now in room #%s on %s.)" % (room_id, host_id))
-	room.send_message("~ PetlinBOT Online.")
+	#room.send_message("~ PetlinBOT Online.")
 	count = 1
 	while True:
 		print("running, " + str(count))
