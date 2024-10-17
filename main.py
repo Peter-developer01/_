@@ -40,9 +40,12 @@ def main():
 
 	print("(You are now in room #%s on %s.)" % (room_id, host_id))
 	room.send_message("~ PetlinBOT Online.")
+	count = 1
 	while True:
-		print("running. " + str(random.randint(0, 9)))
-		time.sleep(120)
+		print("running, " + str(count))
+		count += 1
+		time.sleep(60)
+
 	client.logout()
 
 def check_tells(user):
