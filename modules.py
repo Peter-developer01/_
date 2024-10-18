@@ -371,10 +371,9 @@ def cmd_status(args, message):
         statuses += "    " + str(status_dict[id]["name"]) + " " * (longest_name - len(
             status_dict[id]["name"])) + "   |   " + str(status_dict[id]["count"]) + "\n"
         print("Lengthy?")
-
     print(statuses, "STATUSES RECEIVED")
-
     return statuses
+    print("Say wot?")
 
 hang_words = []
 with open("words.txt", "r") as f:
