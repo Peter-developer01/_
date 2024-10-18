@@ -76,6 +76,12 @@ def log_event(time, event_type, user, text):
 				"event": event_type,
 				"user": user
 			})
+		case "bot_restart":
+			requests.post(LOGGER_API_URL, json={
+				"timestamp": time,
+				"event": event_type,
+				"user": user
+			})
 
 	return "Done."
 
