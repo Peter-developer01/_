@@ -9,7 +9,7 @@ on:
     branches:
       - "main"
     paths:
-      - "chatbot.py"
+      - "main.py"
   schedule:
     - cron: "1 */4 * * *"
 
