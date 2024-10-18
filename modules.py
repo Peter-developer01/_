@@ -355,7 +355,6 @@ def cmd_ping(args, message):
 
 def cmd_status(args, message):
     status_dict = tools.get_status()
-    print(json.dumps(status_dict))
 
     # sort according to action status
     status_dict = dict(
@@ -367,11 +366,11 @@ def cmd_status(args, message):
             longest_name = len(status_dict[id]["name"])
 
     statuses = "    user" + " " * (longest_name - 1) + "|" + "  " + " count\n"
-    print(statuses)
 
     for id in status_dict:
         statuses += "    " + str(status_dict[id]["name"]) + " " * (longest_name - len(
             status_dict[id]["name"])) + "   |   " + str(status_dict[id]["count"]) + "\n"
+        print("Lengthy?")
 
     print(statuses, "STATUSES RECEIVED")
 
