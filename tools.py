@@ -20,7 +20,9 @@ status = get_status()
 time.sleep(2)
 
 def update_status(id, name):
+	print("update_status received (%s, %s)" % (id, name))
 	status = get_status()
+	print("status = %s", json.dumps(status))
 	id = str(id)
 	cur = None
 
@@ -33,9 +35,6 @@ def update_status(id, name):
 		"name": name,
 		"count": cur + 1
 	}
-
-	with open("status.json", "w") as f:
-		f.write(json.dumps(status))
 
 	requests.post(STATUS_API_URL+"/update", json={
 		"updated": id,
