@@ -354,7 +354,7 @@ def cmd_ping(args, message):
 
 
 def cmd_status(args, message):
-    status_dict = tools.status
+    status_dict = tools.get_status()
 
     # sort according to action status
     status_dict = dict(

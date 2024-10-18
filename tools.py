@@ -7,15 +7,20 @@ import time
 
 config = requests.get(CONFIG_API_URL).json()
 
+
 def get_value(name = ""):
 	if name == "":
 		raise KeyError("name")
 
 	return config[name]
 
-status = requests.get(STATUS_API_URL+"/get").json()
+def get_status():
+	return requests.get(STATUS_API_URL+"/get").json()
+status = get_status()
+time.sleep(2)
 
 def update_status(id, name):
+	status = get_status()
 	id = str(id)
 	cur = None
 
@@ -113,7 +118,8 @@ help_list = {
 	"img2txt": "Translate image to text (explain). The image must be in JPG format. May not work randomly because it's free.",
 	"flan": "Just for laughs. May decide to not work randomly.",
 	"log": "Get a link to logs. Syntax: [year]-[month]-[day] (should be numbers).",
-	"tell": "Tell someone something. The bot will ping the person and tell them something whenever it notices activity."
+	"tell": "Tell someone something. The bot will ping the person and tell them something whenever it notices activity.",
+	"status": "Get a list of users and their activity counts."
 }
 
 # Left here for historical reasons.
