@@ -10,6 +10,7 @@ on:
       - "main"
     paths:
       - "main.py"
+      - "modules.py"
   schedule:
     - cron: "1 */4 * * *"
 
