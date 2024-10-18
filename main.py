@@ -51,14 +51,21 @@ def main():
 
 def check_tells(user):
 	tell_list = requests.get(config.TELL_API_URL).json()
-	for i in range(0, len(tell_list)):
-		tell = tell_list[i]
-		if tell[0].startswith(user.name[:3]):
-			room.send_message(prefix(f"@{user.name.replace(' ', '')}, I have a message for you from {tell[1]}: \"{tell[2]}\""))
-			requests.post(config.TELL_API_URL+"/remove", json={
-				"to_remove": i
-			})
+	def loop:
+		con = 0
+		for i in range(0, len(tell_list)):
+			tell = tell_list[i]
+			if tell[0].startswith(user.name[:3]):
+				room.send_message(prefix(f"@{user.name.replace(' ', '')}, I have a message for you from {tell[1]}: \"{tell[2]}\""))
+				requests.post(config.TELL_API_URL+"/remove", json={
+					"to_remove": i
+				})
 
+				con = 1
+				tell_list.pop(i)
+				break
+		if con: loop()
+	loop()
 	
 	return 0
 
