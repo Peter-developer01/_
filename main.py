@@ -115,6 +115,7 @@ def on_message(message, client):
 
 	try:
 		reply = html.unescape(functions.command(message.content, message))
+		print("reply received:", reply)
 		if reply != None and reply != False:
 			if reply.startswith("https://www.youtube.com/") or reply.startswith(":"):
 				room.send_message(reply)
