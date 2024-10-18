@@ -76,7 +76,8 @@ def other_action(message):
 			reply = f'[Stars](https://chat.{config.HOST}/transcript/message/{message._message_id}#{message._message_id}) get removed under peer-pressure?'
 		room.send_message(prefix(reply))
 	elif event(chatexchange.events.UserEntered):
-		tools.log_event(tools.get_time(), "user_join", message.user.name, None)
+		if !is_me(message.user.name):
+			tools.log_event(tools.get_time(), "user_join", message.user.name, None)
 		check_tells(message.user)
 	elif event(chatexchange.events.UserLeft):
 		tools.log_event(tools.get_time(), "user_left", message.user.name, None)
