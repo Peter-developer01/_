@@ -92,7 +92,7 @@ def other_action(message):
 def on_message(message, client):
 	global functions
 	try:
-		#if not message.content.startswith("!status"): tools.update_status(message.user.id, message.user.name)
+		tools.update_status(message.user.id, message.user.name)
 		pass
 	except:
 		logging.exception("")
