@@ -39,6 +39,7 @@ def main():
 	room.watch(on_message)
 
 	print("(You are now in room #%s on %s.)" % (room_id, host_id))
+	tools.log_event(tools.get_time(), "bot_restart", "PetlinBOT", None)
 	#room.send_message("~ PetlinBOT Online.")
 	count = 1
 	while True:
