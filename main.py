@@ -114,7 +114,8 @@ def on_message(message, client):
 	if not message.content.startswith(config.COMMAND_PREFIX): return
 
 	try:
-		reply = html.unescape(functions.command(message.content, message))
+		#reply = html.unescape(functions.command(message.content, message))
+		reply = functions.command(message.content, message)
 		print("reply received:", reply)
 		if reply != None and reply != False:
 			if reply.startswith("https://www.youtube.com/") or reply.startswith(":"):
