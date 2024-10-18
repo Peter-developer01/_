@@ -51,7 +51,7 @@ def main():
 
 def check_tells(user):
 	tell_list = requests.get(config.TELL_API_URL).json()
-	def loop:
+	def loop():
 		con = 0
 		for i in range(0, len(tell_list)):
 			tell = tell_list[i]
