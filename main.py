@@ -116,7 +116,7 @@ def on_message(message, client):
 	try:
 		reply = html.unescape(functions.command(message.content, message))
 		if reply != None and reply != False:
-			if reply.startswith("https://www.youtube.com/") or reply.startswith(":") or message.content.startswith(config.COMMAND_PREFIX + "status"):
+			if reply.startswith("https://www.youtube.com/") or reply.startswith(":"):
 				room.send_message(reply)
 			else:
 				if (message.content.startswith(config.COMMAND_PREFIX + "hang") or message.content.startswith(config.COMMAND_PREFIX + "hang")):
