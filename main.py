@@ -85,7 +85,7 @@ def other_action(message):
 	elif event(chatexchange.events.UserEntered):
 		if not is_me(message.user.name):
 			tools.log_event(tools.get_time(), "user_join", message.user.name, None)
-		check_tells(message.user)
+		#check_tells(message.user)
 	elif event(chatexchange.events.UserLeft):
 		tools.log_event(tools.get_time(), "user_left", message.user.name, None)
 
@@ -103,7 +103,6 @@ def on_message(message, client):
 	
 	tools.log_event(tools.get_time(), "new_message", html.unescape(message.user.name), html.unescape(message.content))
 
-	# in case the user somehow sneaked behind the UserEntered detector
 	if message.user.name != "PetlinBOT":
 		check_tells(message.user)
 
