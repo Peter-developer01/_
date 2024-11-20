@@ -731,9 +731,9 @@ def cmd_tell(args, message):
 
     if msg:
         requests.post(TELL_API_URL+"/new", json={
-            "user_to_tell": user,
-            "user_teller": message.user.name,
-            "message": msg
+            "user_to_tell": html.unescape(user),
+            "user_teller": html.unescape(message.user.name),
+            "message": html.unescape(msg)
         })
 
         return f"OK, I'll let {user} know."
