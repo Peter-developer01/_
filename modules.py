@@ -615,11 +615,11 @@ def cmd_8ball(args, message):
         case "0" | "1":
             great_decision = "Of course."
         case "2" | "3":
-            great_decision = "Probably only when cars swim!"
+            great_decision = "Yes!"
         case "4" | "5":
             great_decision = "Well, duh."
         case "6" | "7":
-            great_decision = "Very doubtful."
+            great_decision = "Yes."
         case "8" | "9":
             great_decision = "Better not tell you now!"
         case "a":
