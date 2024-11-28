@@ -373,6 +373,14 @@ def cmd_status(args, message):
 
     return "\n".join(statuses.split("\n")[:6])
 
+def cmd_getallusers(args, message):
+    status_dict = tools.get_status()
+    sorted_dict = dict(
+        sorted(status_dict.items(), key=lambda item: item[1]["count"], reverse=True))
+    names_list = [item["name"] for item in sorted_dict.values()]
+
+    return f":{str(message._message_id)} {', '.join(names_list)}"
+
 hang_words = []
 with open("words.txt", "r") as f:
     hang_words = f.read().split("\n")
