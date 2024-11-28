@@ -380,7 +380,7 @@ def cmd_getallusers(args, message):
     names_list = [item["name"] for item in sorted_dict.values()]
     names_list = [f"`{i}`" for i in names_list]
 
-    return f":{str(message._message_id)} {', '.join(names_list)}\n​"
+    return f":{str(message._message_id)} {', '.join(names_list)}\n..."
 
 hang_words = []
 with open("words.txt", "r") as f:
