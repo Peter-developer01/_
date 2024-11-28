@@ -378,7 +378,6 @@ def cmd_getallusers(args, message):
     sorted_dict = dict(
         sorted(status_dict.items(), key=lambda item: item[1]["count"], reverse=True))
     names_list = [item["name"] for item in sorted_dict.values()]
-    names_list = [f"`{i}`" for i in names_list]
 
     return f":{str(message._message_id)} {', '.join(names_list)}\n..."
 
