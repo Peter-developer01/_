@@ -17,6 +17,9 @@ import random
 import logging
 import logging.handlers
 
+# ignoring myself because why not
+ignusers = [576644, 540406, 579700, 595292]
+
 def prefix(msg):
     return str(config.PREFIX) + " " + str(msg)
 
@@ -91,6 +94,7 @@ def other_action(message):
 
 def on_message(message, client):
 	global functions
+	if message.user.id in ignusers: return
 	try:
 		tools.update_status(message.user.id, message.user.name)
 		pass
