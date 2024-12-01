@@ -94,7 +94,7 @@ def other_action(message):
 def on_message(msg, client):
 	global functions
 	if msg.user.id in ignusers: return
-	msg = message
+	message = msg
 	if unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
 	try:
 		tools.update_status(message.user.id, message.user.name)
