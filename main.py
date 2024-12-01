@@ -17,8 +17,7 @@ import random
 import logging
 import logging.handlers
 
-# ignoring myself because why not
-ignusers = [576644, 540406, 579700, 595292]
+ignusers = [576644, 540406, 579700]
 
 def prefix(msg):
     return str(config.PREFIX) + " " + str(msg)
