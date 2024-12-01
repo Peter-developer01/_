@@ -91,9 +91,11 @@ def other_action(message):
 	elif event(chatexchange.events.UserLeft):
 		tools.log_event(tools.get_time(), "user_left", message.user.name, None)
 
-def on_message(message, client):
+def on_message(msg, client):
 	global functions
 	if message.user.id in ignusers: return
+	msg = message
+	if unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
 	try:
 		tools.update_status(message.user.id, message.user.name)
 		pass
