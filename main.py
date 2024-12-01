@@ -95,7 +95,6 @@ def on_message(msg, client):
 	global functions
 	if msg.user.id in ignusers: return
 	message = msg
-	if html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
 	try:
 		tools.update_status(message.user.id, message.user.name)
 		pass
@@ -106,6 +105,7 @@ def on_message(msg, client):
 		other_action(message)
 		return
 	
+	if html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
 	tools.log_event(tools.get_time(), "new_message", html.unescape(message.user.name), html.unescape(message.content))
 
 	if message.user.name != "PetlinBOT":
