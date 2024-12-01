@@ -93,7 +93,7 @@ def other_action(message):
 
 def on_message(msg, client):
 	global functions
-	if message.user.id in ignusers: return
+	if msg.user.id in ignusers: return
 	msg = message
 	if unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
 	try:
