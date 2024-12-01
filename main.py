@@ -93,7 +93,7 @@ def other_action(message):
 
 def on_message(msg, client):
 	global functions
-	if msg.user.id in ignusers: return
+	if ("user" in msg) and (msg.user.id in ignusers): return
 	message = msg
 	try:
 		tools.update_status(message.user.id, message.user.name)
