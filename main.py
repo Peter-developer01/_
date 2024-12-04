@@ -93,8 +93,11 @@ def other_action(message):
 
 def on_message(msg, client):
 	global functions
-	if hasattr(msg, "user"):
+	#if hasattr(msg, "user"):
+	try:
 		if msg.user.id in ignusers: return
+	except:
+		print("Duh ;)")
 	
 	message = msg
 	try:
