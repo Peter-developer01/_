@@ -58,7 +58,7 @@ def check_tells(user):
 		con = 0
 		for i in range(0, len(tell_list)):
 			tell = tell_list[i]
-			if name.startswith(tell[0].lower()) or name.startswith(tell[0][1:]):
+			if name.startswith(tell[0].lower()) or name.startswith(tell[0][1:].lower()):
 				room.send_message(prefix(f"@{user.name.replace(' ', '')}, I have a message for you from {tell[1]}: \"{tell[2]}\""))
 				requests.post(config.TELL_API_URL+"/remove", json={
 					"to_remove": i
