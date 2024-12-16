@@ -246,7 +246,7 @@ def cmd_wake(args, message):
 
 
 def cmd_pizza(args, message):
-    return ":" + str(message._message_id) + " https://i.stack.imgur.com/7FYUQ.gif"
+    return ":" + str(message._message_id) + " https://i.sstatic.net/7FYUQ.gif"
 
 
 def cmd_why(args, message):
