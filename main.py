@@ -122,6 +122,10 @@ def on_message(msg, client):
 	if "".join(msgs[-3:]) == message.content * 3:
 		room.send_message(prefix(message.content))
 	if not message.content.startswith(config.COMMAND_PREFIX): return
+	try:
+		if message.content.strip() == config.COMMAND_PREFIX: return
+	except:
+		pass
 
 	try:
 		#reply = html.unescape(functions.command(message.content, message))
