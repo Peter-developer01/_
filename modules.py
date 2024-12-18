@@ -19,6 +19,7 @@ import urllib
 import urllib.request
 import urllib.parse
 import re
+import uuid
 
 _food = config["food"]
 _poo_count = config["poo_count"]
