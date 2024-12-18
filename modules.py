@@ -10,6 +10,8 @@ import html
 import string
 import os
 import io
+import logging
+import logging.handlers
 from PIL import Image
 import time
 import hashlib
@@ -709,6 +711,7 @@ def cmd_img2txt(args, message):
         os.remove(uniq + ".jpg")
         return ":" + str(message._message_id) + " " + result
     except:
+        loggion.exception("img2txt")
         return "Something went wrong."
 
 FLAN_API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-large"
