@@ -754,7 +754,7 @@ def cmd_tell(args, message):
 
 CONVERT_URL = "https://www.convert.net/gw.php"
 def cmd_convert(args, message):
-    if len(" ".join(args)).strip() == 0: return "Please specify what to convert."
+    if len(" ".join(args).strip()) == 0: return "Please specify what to convert."
     jsondata = {
         "action": "convert_math",
         "v": " ".join(args)
