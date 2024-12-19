@@ -751,3 +751,29 @@ def cmd_tell(args, message):
         return f"OK, I'll let {user} know."
     else:
         return f"OK, I'll let {user} know nothing."
+
+CONVERT_URL = "https://www.convert.net/gw.php"
+def cmd_convert(args, message):
+    jsondata = {
+        "action": "convert_math",
+        "v": " ".join(args)
+    }
+
+    req = requests.post(url, data=json.dumps(jsondata), headers={'User-Agent': 'Mozilla/5.0'})
+    if req.ok:
+        return ":" + str(message._message_id) + " " + a.json()["v"]
+    return "Something went wrong!"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
