@@ -754,6 +754,7 @@ def cmd_tell(args, message):
 
 CONVERT_URL = "https://www.convert.net/gw.php"
 def cmd_convert(args, message):
+    if len(" ".join(args)).strip() == 0: return "Please specify what to convert."
     jsondata = {
         "action": "convert_math",
         "v": " ".join(args)
@@ -761,7 +762,7 @@ def cmd_convert(args, message):
 
     req = requests.post(CONVERT_URL, data=jsondata, headers={'User-Agent': 'Mozilla/5.0'})
     if req.ok:
-        return ":" + str(message._message_id) + " " + req.json()["r"] + "[(source)](https://www.convert.net)"
+        return ":" + str(message._message_id) + " " + req.json()["r"] + " [(source)](https://www.convert.net)"
     return "Something went wrong!"
 
 
