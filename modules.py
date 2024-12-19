@@ -759,7 +759,7 @@ def cmd_convert(args, message):
         "v": " ".join(args)
     }
 
-    req = requests.post(CONVERT_URL, data=json.dumps(jsondata), headers={'User-Agent': 'Mozilla/5.0'})
+    req = requests.post(CONVERT_URL, data=jsondata, headers={'User-Agent': 'Mozilla/5.0'})
     if req.ok:
         return ":" + str(message._message_id) + " " + req.json()["v"]
     return "Something went wrong!"
