@@ -772,7 +772,7 @@ def cmd_send(args, message):
     if not second: second = "a"
     length = first - len(":xxxxxxxx ") - 2
     string = second * length
-    string += "\n" + first
+    string += "\n" + second
     return ":" + str(message._message_id) + " " + string
 
 
