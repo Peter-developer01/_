@@ -133,9 +133,7 @@ def on_message(msg, client):
 		reply = functions.command(message.content, message)
 		print("reply received:", reply)
 		if reply != None and reply != False:
-			if reply.startswith("https://www.youtube.com/") or
-			   reply.startswith(":") or
-			   message.content.lower().startswith(config.COMMAND_PREFIX + "status"):
+			if reply.startswith("https://www.youtube.com/") or reply.startswith(":") or message.content.lower().startswith(config.COMMAND_PREFIX + "status"):
 				if len(reply) > 480:
 					n = 480
 					l = [reply[i:i+n] for i in range(0, len(reply), n)]
