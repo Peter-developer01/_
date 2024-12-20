@@ -132,6 +132,7 @@ def on_message(msg, client):
 		#reply = html.unescape(functions.command(message.content, message))
 		reply = functions.command(message.content, message)
 		if reply != None and reply != False:
+			reply = reply.replace("<span>", "").replace("</span>", "")
 			if reply.startswith("https://www.youtube.com/") or reply.startswith(":") or message.content.lower().startswith(config.COMMAND_PREFIX + "status"):
 				if len(reply) > 480:
 					n = 480
