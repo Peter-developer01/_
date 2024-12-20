@@ -137,7 +137,7 @@ def on_message(msg, client):
 					n = 480
 					l = [reply[i:i+n] for i in range(0, len(reply), n)]
 					for v in l:
-						room.send_message(prefix(v))
+						room.send_message(v)
 				else: room.send_message(reply)
 			else:
 				if (message.content.startswith(config.COMMAND_PREFIX + "hang") or message.content.startswith(config.COMMAND_PREFIX + "hang")):
