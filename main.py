@@ -131,14 +131,13 @@ def on_message(msg, client):
 	try:
 		#reply = html.unescape(functions.command(message.content, message))
 		reply = functions.command(message.content, message)
-		print("reply received:", reply)
 		if reply != None and reply != False:
 			if reply.startswith("https://www.youtube.com/") or reply.startswith(":") or message.content.lower().startswith(config.COMMAND_PREFIX + "status"):
 				if len(reply) > 480:
 					n = 480
 					l = [reply[i:i+n] for i in range(0, len(reply), n)]
 					for v in l:
-						room.send_message(prefix(reply))
+						room.send_message(prefix(v))
 				else: room.send_message(reply)
 			else:
 				if (message.content.startswith(config.COMMAND_PREFIX + "hang") or message.content.startswith(config.COMMAND_PREFIX + "hang")):
@@ -149,7 +148,7 @@ def on_message(msg, client):
 						n = 480
 						l = [reply[i:i+n] for i in range(0, len(reply), n)]
 						for v in l:
-							room.send_message(prefix(reply))
+							room.send_message(prefix(v))
 					else:
 						room.send_message(prefix(reply))
 	except:
