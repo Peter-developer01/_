@@ -765,6 +765,19 @@ def cmd_convert(args, message):
         return ":" + str(message._message_id) + " " + req.json()["r"] + " [(source)](https://www.convert.net)"
     return "Something went wrong!"
 
+# debug_command
+def cmd_send(args, message):
+    first = int(args[0])
+    second = args[1][:1]
+    if not second: second = "a"
+    length = first - len(":xxxxxxxx ") - 2
+    string = second * length
+    string += "\n" + first
+    return ":" + str(message._message_id) + " " + string
+
+
+
+
 
 
 
