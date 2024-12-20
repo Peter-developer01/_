@@ -18,6 +18,7 @@ import logging
 import logging.handlers
 
 ignusers = [576644, 540406]
+reply_length = len(":xxxxxxxx ")
 
 def prefix(msg):
     return str(config.PREFIX) + " " + str(msg)
@@ -132,13 +133,27 @@ def on_message(msg, client):
 		reply = functions.command(message.content, message)
 		print("reply received:", reply)
 		if reply != None and reply != False:
-			if reply.startswith("https://www.youtube.com/") or reply.startswith(":") or message.content.lower().startswith(config.COMMAND_PREFIX + "status"):
-				room.send_message(reply)
+			if reply.startswith("https://www.youtube.com/") or
+			   reply.startswith(":") or
+			   message.content.lower().startswith(config.COMMAND_PREFIX + "status"):
+				if len(reply) > 480:
+					n = 480
+					l = [reply[i:i+n] for i in range(0, len(reply), n)]
+					for v in l:
+						room.send_message(prefix(reply))
+				else: room.send_message(reply)
 			else:
 				if (message.content.startswith(config.COMMAND_PREFIX + "hang") or message.content.startswith(config.COMMAND_PREFIX + "hang")):
 					room.send_message(reply.replace("\\*", "*"))
 				else:
-					room.send_message(prefix(md(reply).replace("\\*", "*")))
+					reply = md(reply).replace("\\*", "*")
+					if len(reply) > 480:
+						n = 480
+						l = [reply[i:i+n] for i in range(0, len(reply), n)]
+						for v in l:
+							room.send_message(prefix(reply))
+					else:
+						room.send_message(prefix(reply))
 	except:
 		logging.exception("")
 		message.message.reply("Something went wrong!")
