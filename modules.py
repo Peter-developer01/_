@@ -766,8 +766,9 @@ def cmd_convert(args, message):
     return "Something went wrong!"
 
 def cmd_tea(args, message):
-    if len(args) == 0: args[0] = message.user.name
-    user = args[0].replace(" ", "")
+    user = message.user.name.replace(" ", "")
+    if len(args) != 0: user = args[0]
+
     tea_flavors = [
         "matcha", "green", "lemon", "mint", "ginger",
         "oolong", "black", "herbal", "Earl Grey", "jasmine"
