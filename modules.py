@@ -765,15 +765,29 @@ def cmd_convert(args, message):
         return ":" + str(message._message_id) + " " + req.json()["r"] + " [(source)](https://www.convert.net)"
     return "Something went wrong!"
 
-# debug_command
-def cmd_send(args, message):
-    first = int(args[0])
-    second = args[1][:1]
-    if not second: second = "a"
-    length = first - len(":xxxxxxxx ") - 2
-    string = second * length
-    string += "\n" + second
-    return ":" + str(message._message_id) + " " + string
+def cmd_tea(args, message):
+    if len(args) == 0: args[0] = message.user.name
+    user = args[0].replace(" ", "")
+    tea_flavors = [
+        "matcha", "green", "lemon", "mint", "ginger",
+        "oolong", "black", "herbal", "Earl Grey", "jasmine"
+    ]
+
+    steaming = " steaming" if random.uniform(0, 1) > 0.5 else ""
+
+    return ":" + str(message._message_id) + f" *brews a cup of{steaming} {random.choice(tea_flavors)} tea for @{user}*"
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
