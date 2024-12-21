@@ -20,9 +20,7 @@ status = get_status()
 time.sleep(2)
 
 def update_status(id, name):
-	print("update_status received (%s, %s)" % (id, name))
 	status = get_status()
-	print("status = %s", json.dumps(status))
 	id = str(id)
 	cur = None
 
