@@ -112,14 +112,12 @@ def on_message(msg, client):
 		other_action(message)
 		return
 
-	if "@petl" in message.content.lower():
+	if "@petl" in message.content.lower() and message.user.id != 375672: # ignonrgin oaky
 		try:
 			# message.message.reply("What do you need?")
 			content = message.content
-			ping_list = "@petlinbot @petlinbo @petlinb @petlin @petli @petl".split(" ")
-
-			for i in ping_list:
-				content = content.replace(i, "")
+			#ping_replace_regex = re.compile('@petli?n?b?o?t?', re.IGNORECASE)
+			#content = ping_replace_regex.sub("(ping mentioning you)", content)
 			
 			reply = functions.command(config.COMMAND_PREFIX + "convert " + content, message)
 	
