@@ -112,7 +112,7 @@ def on_message(msg, client):
 		other_action(message)
 		return
 
-	if "@petl" in message.content.lower() and message.user.id != 375672: # ignonrgin oaky
+	if "@petl" in message.content.lower() and message.user.id != 375672 and message.user.id != 579700: # ignonrgin oaky and myself
 		try:
 			# message.message.reply("What do you need?")
 			content = message.content
