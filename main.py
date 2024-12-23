@@ -79,7 +79,7 @@ def other_action(message):
 
 	def is_me(name):
 		if name == "PetlinBOT": return True
-		return False	
+		return False
 
 	if event(chatexchange.events.MessageStarred):
 		reply = f'Not [everything](https://chat.{config.HOST}/transcript/message/{message._message_id}#{message._message_id}) is star-worthy...'
@@ -111,6 +111,20 @@ def on_message(msg, client):
 	if not isinstance(message, chatexchange.events.MessagePosted) and not isinstance(message, chatexchange.events.MessageEdited):
 		other_action(message)
 		return
+
+	if "@petl" in message.content.lower():
+		# message.message.reply("What do you need?")
+		reply = functions.command(COMMAND_PREFIX + "convert " + message.content, message)
+
+		if reply != None and reply != False:
+			reply = reply.replace("<span>", "").replace("</span>", "")
+			if len(reply) > 480:
+				n = 480
+				l = [reply[i:i+n] for i in range(0, len(reply), n)]
+				for v in l:
+					room.send_message(v)
+			else: room.send_message(reply)
+		
 	
 	if html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
 	tools.log_event(tools.get_time(), "new_message", html.unescape(message.user.name), html.unescape(message.content))
