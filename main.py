@@ -113,17 +113,27 @@ def on_message(msg, client):
 		return
 
 	if "@petl" in message.content.lower():
-		# message.message.reply("What do you need?")
-		reply = functions.command(COMMAND_PREFIX + "convert " + message.content, message)
+		try:
+			# message.message.reply("What do you need?")
+			content = message.content
+			ping_list = "@petlinbot @petlinbo @petlinb @petlin @petli @petl".split(" ")
 
-		if reply != None and reply != False:
-			reply = reply.replace("<span>", "").replace("</span>", "")
-			if len(reply) > 480:
-				n = 480
-				l = [reply[i:i+n] for i in range(0, len(reply), n)]
-				for v in l:
-					room.send_message(v)
-			else: room.send_message(reply)
+			for i in ping_list:
+				content = content.replace(i, "")
+			
+			reply = functions.command(config.COMMAND_PREFIX + "convert " + content, message)
+	
+			if reply != None and reply != False:
+				reply = reply.replace("<span>", "").replace("</span>", "")
+				if len(reply) > 480:
+					n = 480
+					l = [reply[i:i+n] for i in range(0, len(reply), n)]
+					for v in l:
+						room.send_message(v)
+				else: room.send_message(reply)
+		except:
+			logging.exception("on mention")
+			message.message.reply("Something went wrong!")
 		
 	
 	if html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
