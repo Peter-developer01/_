@@ -553,7 +553,7 @@ def cmd_gpt2(args, message):
         "inputs": msg
     }, "https://api-inference.huggingface.co/models/openai-community/gpt2")
 
-    return ":" + str(message._message_id) + " " + str(response)
+    return ":" + str(message._message_id) + " " + json.loads(response)[0]["generated_text"]
 
 
 guess_number = 0
