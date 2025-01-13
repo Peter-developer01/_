@@ -547,7 +547,7 @@ def cmd_imgmodel(args, message):
 
     return ":" + str(message._message_id) + " " + reply
 
-def gpt2(args, message)
+def gpt2(args, message):
     msg = " ".join(args)
     response = query({
         "inputs": msg
