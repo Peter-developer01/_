@@ -508,21 +508,21 @@ headers = {"Authorization": "Bearer " + API_KEY}
 upload_url = 'http://peterkolosov.pythonanywhere.com/upload'
 
 
-def query(payload):
-    response = requests.post(API_URL, headers=headers, json=payload)
+def query(payload, url):
+    response = requests.post(url, headers=headers, json=payload)
     return response.content
 
 
 def cmd_imagine(args, message):
     string = " ".join(args)
-    response = query({"inputs": string})
+    response = query({"inputs": string}, API_URL)
     if ("\"error" in str(response)):
         message.message.reply(
             "Due to an internal error, you might experience a long delay. Don't worry though, you will get an image soon.")
     while ("\"error" in str(response)):
         print(str(response))
         print("Trying again...")
-        response = query({"inputs": string})
+        response = query({"inputs": string}, API_URL)
         time.sleep(30)
     image = Image.open(io.BytesIO(response))
     timestamp = str(time.time())
@@ -546,6 +546,14 @@ def cmd_imgmodel(args, message):
         reply = "Model changed to default."
 
     return ":" + str(message._message_id) + " " + reply
+
+def gpt2(args, message)
+    msg = " ".join(args)
+    response = query({
+        "inputs": msg
+    }, "https://api-inference.huggingface.co/models/openai-community/gpt2")
+
+    return ":" + str(message._message_id) + " " + response
 
 
 guess_number = 0
