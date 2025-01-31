@@ -710,6 +710,7 @@ def cmd_img2txt(args, message):
             f.write(r.content)
 
         result = img2txt(uniq + ".jpg")
+        print(result, dir(result))
         result = eval(result)[0]["generated_text"]
         if not result.endswith("."):
             result += "."
@@ -719,7 +720,7 @@ def cmd_img2txt(args, message):
         os.remove(uniq + ".jpg")
         return ":" + str(message._message_id) + " " + result
     except:
-        loggion.exception("img2txt")
+        logging.exception("img2txt")
         return "Something went wrong."
 
 FLAN_API_URL = "https://api-inference.huggingface.co/models/google/flan-t5-large"
