@@ -711,7 +711,7 @@ def cmd_img2txt(args, message):
 
         result = img2txt(uniq + ".jpg")
         print(result, dir(result))
-        return str(type(result)) + " ".join(dir(result))
+        return result
         result = eval(result)[0]["generated_text"]
         if not result.endswith("."):
             result += "."
