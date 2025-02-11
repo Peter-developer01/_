@@ -515,14 +515,16 @@ def query(payload, url):
 
 def cmd_imagine(args, message):
     string = " ".join(args)
+    retries = 0
     response = query({"inputs": string}, API_URL)
     if ("\"error" in str(response)):
         message.message.reply(
             "Due to an internal error, you might experience a long delay. Don't worry though, you will get an image soon.")
-    while ("\"error" in str(response)):
+    while ("\"error" in str(response)) and retries < 15:
         print(str(response))
         print("Trying again...")
         response = query({"inputs": string}, API_URL)
+        retries += 1
         time.sleep(10)
     image = Image.open(io.BytesIO(response))
     timestamp = str(time.time())
