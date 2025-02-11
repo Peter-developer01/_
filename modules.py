@@ -523,7 +523,7 @@ def cmd_imagine(args, message):
         print(str(response))
         print("Trying again...")
         response = query({"inputs": string}, API_URL)
-        time.sleep(30)
+        time.sleep(10)
     image = Image.open(io.BytesIO(response))
     timestamp = str(time.time())
     file_name = timestamp + ".jpg"
