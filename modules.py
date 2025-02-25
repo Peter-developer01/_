@@ -812,7 +812,7 @@ def cmd_mood(args, message):
 
     req = requests.post(MOOD_API_URL + "/set", headers=headers, json=payload)
     if req.ok:
-        return str(message._message_id) + " I am now " + v + ". :D"
+        return ":" + str(message._message_id) + " I am now " + v + ". :D"
     else: return "Something went wrong!"
 
 def cmd_tea(args, message):
