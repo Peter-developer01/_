@@ -802,7 +802,7 @@ def cmd_convert(args, message):
 def cmd_mood(args, message):
     global mood
     v = " ".join(args)
-    if v == "": return cmd_convert("How are you feeling? Describe your mood")
+    if v == "": return "I am feeling a bit " + mood + "."
 
     mood = v
     headers = { "Content-Type": "application/json" }
