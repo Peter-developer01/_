@@ -786,8 +786,8 @@ def cmd_convert(args, message):
     global mood
     if len(" ".join(args).strip()) == 0: return "Please specify what to convert."
 
-    message = " ".join(args)
-    mooded_request = f"You are a {mood} bot. Reply to {message}"
+    req = " ".join(args)
+    mooded_request = f"You are a {mood} bot. Reply to {req}"
 
     jsondata = {
         "action": "convert_math",
