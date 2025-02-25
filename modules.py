@@ -778,6 +778,8 @@ def get_mood():
     got_mood = 1
     return mood
 
+mood = get_mood()
+
 CONVERT_URL = "https://www.convert.net/gw.php"
 def cmd_convert(args, message):
     global mood
