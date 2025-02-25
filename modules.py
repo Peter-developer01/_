@@ -799,6 +799,22 @@ def cmd_convert(args, message):
         return ":" + str(message._message_id) + " " + req.json()["r"] + " [(source)](https://www.convert.net)"
     return "Something went wrong!"
 
+def cmd_mood(args, message):
+    global mood
+    v = " ".join(args)
+    if v == "": return cmd_convert("How are you feeling? Describe your mood")
+
+    mood = v
+    headers = { "Content-Type": "application/json" }
+    payload = {
+        "new_mood": v
+    }
+
+    req = requests.post(MOOD_API_URL + "/set", headers=headers, json=payload)
+    if req.ok:
+        return str(message._message_id) + " I am now " + v + ". :D"
+    else: return "Something went wrong!"
+
 def cmd_tea(args, message):
     user = message.user.name.replace(" ", "")
     if len(args) != 0: user = args[0]
