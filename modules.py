@@ -763,9 +763,29 @@ def cmd_tell(args, message):
     else:
         return f"OK, I'll let {user} know nothing."
 
+got_mood = 0
+def get_mood():
+    if got_mood:
+        global mood
+        return mood
+
+    mood = "not even trying"
+    try:
+        mood = requests.get(MOOD_API_URL).text
+    except:
+        mood = "failed loser"
+
+    got_mood = 1
+    return mood
+
 CONVERT_URL = "https://www.convert.net/gw.php"
 def cmd_convert(args, message):
+    global mood
     if len(" ".join(args).strip()) == 0: return "Please specify what to convert."
+
+    message = " ".join(args)
+    mooded_request = f"You are a {mood} bot. Reply to {message}"
+
     jsondata = {
         "action": "convert_math",
         "v": " ".join(args)
