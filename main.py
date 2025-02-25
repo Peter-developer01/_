@@ -127,8 +127,8 @@ def on_message(msg, client):
 					n = 480
 					l = [reply[i:i+n] for i in range(0, len(reply), n)]
 					for v in l:
-						room.send_message(v)
-				else: room.send_message(reply)
+						room.send_message(html.unescape(v))
+				else: room.send_message(html.unescape(reply))
 		except:
 			logging.exception("on mention")
 			message.message.reply("Something went wrong!")
