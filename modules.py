@@ -12,7 +12,8 @@ import os
 import io
 import logging
 import logging.handlers
-from PIL import Image
+# from PIL ...
+import Image
 import time
 import hashlib
 from bs4 import BeautifulSoup
