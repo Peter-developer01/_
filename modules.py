@@ -791,7 +791,7 @@ def cmd_convert(args, message):
 
     jsondata = {
         "action": "convert_math",
-        "v": " ".join(args)
+        "v": mooded_request
     }
 
     req = requests.post(CONVERT_URL, data=jsondata, headers={'User-Agent': 'Mozilla/5.0'})
