@@ -765,8 +765,9 @@ def cmd_tell(args, message):
 
 got_mood = 0
 def get_mood():
+    global got_mood
+
     if got_mood:
-        global mood
         return mood
 
     mood = "not even trying"
