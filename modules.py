@@ -23,6 +23,13 @@ import urllib.parse
 import re
 import uuid
 
+recent_messages = []
+def add_message(msg):
+	recent_messages.append(msg)
+	if len(recent_messages) > 50:
+		recent_messages.pop(0)
+	return recent_messages
+
 _food = config["food"]
 _poo_count = config["poo_count"]
 _emojis = ""
@@ -211,12 +218,6 @@ def cmd_alive(args, message):
     else:
         return "Yes, also " + ' '.join(args)
     return "Strange bot. @Petəíŕd check the code. Some err!"
-
-
-def cmd_testexception(args, message):
-    return ":("
-    # raise Exception(' '.join(args))
-
 
 def cmd_say(args, message):
     if len(args) == 0:
@@ -783,11 +784,17 @@ mood = get_mood()
 
 CONVERT_URL = "https://www.convert.net/gw.php"
 def cmd_convert(args, message):
-    global mood
+    global mood, recent_messages
     if len(" ".join(args).strip()) == 0: return "Please specify what to convert."
 
+    last_messages = [msg.user.name + ": " + msg.content for msg in recent_messages[:10]]
+    print("\n".join(last_messages))
+
     req = " ".join(args)
-    mooded_request = f"You are a {mood} bot. Reply to {req}"
+    mooded_request = f"""Recent messages: START_OF_RECENT_MESSAGES
+{chr(10).join(last_messages) or "There were no recent messages."}
+END_OF_RECENT_MESSAGES
+As a {mood} bot, reply to "{req}" """
 
     jsondata = {
         "action": "convert_math",
@@ -827,26 +834,6 @@ def cmd_tea(args, message):
     steaming = " steaming" if random.uniform(0, 1) > 0.5 else ""
 
     return ":" + str(message._message_id) + f" *brews a cup of{steaming} {random.choice(tea_flavors)} tea for @{user}*"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
