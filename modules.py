@@ -791,10 +791,10 @@ def cmd_convert(args, message):
     print("\n".join(last_messages))
 
     req = " ".join(args)
-    mooded_request = f"""Recent messages:
+    mooded_request = f"""Recent messages, from the earliest to the latest:
 {chr(10).join(last_messages) or "There were no recent messages."}
 End of recent messages.
-As a {mood} bot, reply to "{req}" from {message.user.name}, using the recent message list as context."""
+As a {mood} bot, reply to "{req}" from {message.user.name}, using the message list as the context."""
 
     jsondata = {
         "action": "convert_math",
