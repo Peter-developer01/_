@@ -787,7 +787,7 @@ def cmd_convert(args, message):
     global mood, recent_messages
     if len(" ".join(args).strip()) == 0: return "Please specify what to convert."
 
-    last_messages = [msg.user.name + ": " + msg.content for msg in recent_messages[:10]]
+    last_messages = [msg.user.name + ": " + msg.content for msg in recent_messages[len(recent_messages)-20:]]
     print("\n".join(last_messages))
 
     req = " ".join(args)
