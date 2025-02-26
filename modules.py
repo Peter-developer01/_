@@ -849,7 +849,9 @@ def cmd_delete(args, message):
 		if arg.isnumeric():
 			try:
 				browser.delete_message(int(arg))
-			except: return "Something went wrong while deleting message " + arg
+			except:
+   				logging.exception("delete_message")
+   				return "Something went wrong while deleting message " + arg
    
 	return "Done"
 
