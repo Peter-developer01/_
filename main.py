@@ -15,6 +15,7 @@ import time
 import random
 import re
 import modules
+modules.pass_browser(browser)
 
 import logging
 import logging.handlers
