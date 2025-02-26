@@ -838,7 +838,20 @@ def cmd_tea(args, message):
 def cmd_recents(args, message):
 	return "\n".join([msg.user.name + ": " + msg.content for msg in recent_messages[len(recent_messages)-20:]])
 
+browser = None
+def pass_browser(obj):
+	global browser
+	browser = obj
 
+def cmd_delete(args, message):
+	global browser
+	for arg in args:
+		if arg.isnumeric():
+			try:
+				browser.delete_message(int(arg))
+			except: return "Something went wrong while deleting message " + arg
+   
+	return "Done"
 
 
 
