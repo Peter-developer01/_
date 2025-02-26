@@ -835,7 +835,8 @@ def cmd_tea(args, message):
 
     return ":" + str(message._message_id) + f" *brews a cup of{steaming} {random.choice(tea_flavors)} tea for @{user}*"
 
-
+def cmd_recents(args, message):
+	return "\n".join([msg.user.name + ": " + msg.content for msg in recent_messages[len(recent_messages)-20:]])
 
 
 
