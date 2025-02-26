@@ -13,6 +13,7 @@ from markdownify import markdownify as md
 from datetime import datetime
 import time
 import random
+import modules
 
 import logging
 import logging.handlers
@@ -111,7 +112,7 @@ def on_message(msg, client):
 	if not isinstance(message, chatexchange.events.MessagePosted) and not isinstance(message, chatexchange.events.MessageEdited):
 		other_action(message)
 		return
-
+	modules.add_message(message)
 	if "@petl" in message.content.lower() and message.user.id != 375672 and message.user.id != 579700: # ignonrgin oaky and myself
 		try:
 			# message.message.reply("What do you need?")
