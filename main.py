@@ -13,6 +13,7 @@ from markdownify import markdownify as md
 from datetime import datetime
 import time
 import random
+import re
 import modules
 
 import logging
