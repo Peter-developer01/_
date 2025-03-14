@@ -115,7 +115,7 @@ def on_message(msg, client):
 		other_action(message)
 		return
 	modules.add_message(message)
-	if "@petl" in message.content.lower() and message.user.id != 375672 and message.user.id != 579700: # ignonrgin oaky and myself
+	if message.content and "@petl" in message.content.lower() and message.user.id != 375672 and message.user.id != 579700: # ignonrgin oaky and myself
 		try:
 			# message.message.reply("What do you need?")
 			start_ping_regex = re.compile("^@petl?i?n?b?o?t?", re.I)
