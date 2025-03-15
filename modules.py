@@ -481,7 +481,8 @@ def cmd_hang(args, message):
 
     if user_id not in hang_users:
         hang_users[user_id] = {
-            "games_played": 0,
+            # the bug was that it did not increase if user wasn't previously there so iFixit by changing default games_played to 1 instead of 0 because if they start a new game, they already played 1 game
+            "games_played": 1,
             "games_lost": 0,
             "games_won": 0,
             "name": message.user.name,
