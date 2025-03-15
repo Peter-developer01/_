@@ -8,6 +8,7 @@ import random
 import json
 import html
 import string
+import math
 import os
 import io
 import logging
@@ -25,10 +26,10 @@ import uuid
 
 recent_messages = []
 def add_message(msg):
-	recent_messages.append(msg)
-	if len(recent_messages) > 50:
-		recent_messages.pop(0)
-	return recent_messages
+    recent_messages.append(msg)
+    if len(recent_messages) > 50:
+        recent_messages.pop(0)
+    return recent_messages
 
 _food = config["food"]
 _poo_count = config["poo_count"]
@@ -385,7 +386,53 @@ def cmd_getallusers(args, message):
 
     return f":{str(message._message_id)} {', '.join(names_list)}\n..."
 
+# hangman
+def load_hang_data():
+    req = requests.get(HANGMAN_API_URL + "/status").json()
+    return req
+
+hang_users = load_hang_data()
+
+def save_hang_data():
+    res = requests.post(HANGMAN_API_URL + "/update", json={
+        "users": hang_users,
+        "key": PA_API_KEY
+    })
+    return res.ok
+
+def hang_word_worth(word):
+    word_worths = {
+        1: 10,
+        2: 9,
+        3: 8,
+        4: 7,
+        5: 6,
+        6: 5,
+        7: 4,
+        8: 3,
+        9: 2,
+        10: 2,
+        11: 2,
+        12: 2,
+        13: 2,
+        14: 2,
+        15: 2,
+        16: 2,
+        17: 2,
+        18: 2,
+        19: 2,
+        20: 2,
+        21: 2,
+        22: 2,
+        23: 2,
+        24: 2,
+        25: 2
+    }
+
+    return word_worths[len(word)]
+
 hang_words = []
+
 with open("words.txt", "r") as f:
     hang_words = f.read().split("\n")
 hang_word = random.choice(hang_words)
@@ -423,12 +470,31 @@ hang_pics = ['''  +---+
  / \  |
      ===''']
 hang_man_state = 0
+hangman_in_play = False
+
+def giant_s(n):
+    return "s" if n != 1 else ""
 
 def cmd_hang(args, message):
-    global hang_word, hang_guesses, hang_turns, hang_failed, hang_format, hang_failed, hang_man_state
+    global hang_word, hang_guesses, hang_turns, hang_failed, hang_format, hang_failed, hang_man_state, hangman_in_play, hang_users
+    user_id = str(message.user.id)
 
+    if user_id not in hang_users:
+        hang_users[user_id] = {
+            "games_played": 0,
+            "games_lost": 0,
+            "games_won": 0,
+            "name": message.user.name,
+            "hang_reputation": 0,
+            "pronouns": "they/them"
+        }
+    elif not hangman_in_play:
+        hang_users[user_id]["games_played"] += 1
+
+    save_hang_data()
     if len(args) == 0:
         return "Usage: `/hang <letters>`"
+    hangman_in_play = True
 
     arg_s = "".join(args).lower()
     letters = "".join(
@@ -467,10 +533,20 @@ def cmd_hang(args, message):
         hang_turns = 7
         hang_format = list("_" * len(hang_word))
         hang_failed = ""
+        hangman_in_play = False
         if lost:
-            return reply_str + "You lost. The word was: " + previous_hang_word + "."
+            lost_rep = hang_word_worth(previous_hang_word) / 2
+            lost_rep = math.floor(lost_rep)
+            hang_users[user_id]["hang_reputation"] -= lost_rep
+            hang_users[user_id]["games_lost"] += 1
+            save_hang_data()
+            return reply_str + "You lost. Your reputation has decreased by " + str(lost_rep) + ". The word was " + previous_hang_word + "."
         elif won:
-            return reply_str + "You won! The word is " + previous_hang_word + "."
+            gained_rep = hang_word_worth(previous_hang_word)
+            hang_users[user_id]["hang_reputation"] += gained_rep
+            hang_users[user_id]["games_won"] += 1
+            save_hang_data()
+            return reply_str + "You won! Your reputation has increased by " + str(gained_rep) + ". The word is " + previous_hang_word + "."
 
     return_string = hang_pics[hang_man_state] + "\n"
     return_string += " ".join(hang_format) + "\n\n"
@@ -482,6 +558,53 @@ def cmd_hang(args, message):
 
     return return_string
 
+PRONOUNS = {
+    1: "they/them",
+    2: "he/him",
+    3: "she/her"
+}
+
+def cmd_hang_stats(args, message):
+    return_string = ""
+    index = 0
+    id_or_name = " ".join(args) if len(args) > 0 else None
+
+    sorted_users = {k: v for k, v in sorted(hang_users.items(), key=lambda item: item[1]["hang_reputation"])}
+    for user in sorted_users:
+        if id_or_name and id_or_name != str(user) and id_or_name != hang_users[user]["name"]: continue
+        pronouns = hang_users[user]["pronouns"] if "pronouns" in hang_users[user] else "they/them"
+        pronoun_singular = ""
+        pronoun_plural = ""
+        if pronouns == PRONOUNS[1]:
+            pronoun_singular, pronoun_plural = "they", "their"
+        elif pronouns == PRONOUNS[2]:
+            pronoun_singular, pronoun_plural = "he", "his"
+        elif pronouns == PRONOUNS[3]:
+            pronoun_singular, pronoun_plural = "she", "her"
+        else:
+            pronoun_singular, pronoun_plural = pronouns.split("/")
+
+        if index != 0: return_string += "\n---------------\n"
+        games_played = hang_users[user]["games_played"]
+        games_won = hang_users[user]["games_won"]
+        games_lost = hang_users[user]["games_lost"]
+        games_forfeited = games_played - games_won - games_lost
+        return_string += f"User {hang_users[user]['name']} (user id {user}):\n"
+        return_string += f"- has played {games_played} time{giant_s(games_played)}\n"
+        return_string += f"""- of which, {pronoun_singular} won {games_won} time{giant_s(games_won)}{" and" if hangman_in_play else ","} lost {games_lost} time{giant_s(games_lost)}"""
+        return_string += f", and forfeited {games_forfeited} time{giant_s(games_forfeited)}." if not hangman_in_play else "."
+        return_string += f"\n"
+        return_string += f"{pronoun_plural.capitalize()} hangman reputation is {hang_users[user]['hang_reputation']}."
+        if not id_or_name: index += 1
+    return return_string or (f"No users found matching \"{id_or_name}\"." if id_or_name else "No users have played Hangman yet.")
+
+def cmd_hang_setpronouns(args, message):
+    if len(args) < 1: return "Please specify a pronoun or pronoun ID (1 = they/them, 2 = he/him, 3 = she/her)."
+    first_arg = int(args[0]) if args[0].isnumeric() else args[0]
+    if "/" not in "/".join(args) and first_arg not in PRONOUNS: return "Invalid pronouns (perhaps you forgot the second pronoun?)"
+    hang_users[str(message.user.id)]["pronouns"] = PRONOUNS[first_arg] if type(first_arg) == int and first_arg in PRONOUNS else "/".join(args)
+    save_hang_data()
+    return f"Your pronouns have been set to \"{hang_users[str(message.user.id)]['pronouns']}\"."
 
 def cmd_h(args, message):
     return cmd_hang(args, message)
@@ -788,7 +911,6 @@ def cmd_convert(args, message):
     if len(" ".join(args).strip()) == 0: return "Please specify what to convert."
 
     last_messages = [msg.user.name + ": " + msg.content for msg in recent_messages[len(recent_messages)-20:]]
-    print("\n".join(last_messages))
 
     req = " ".join(args)
     mooded_request = f"""Recent messages, from the earliest to the latest:
@@ -836,26 +958,21 @@ def cmd_tea(args, message):
     return ":" + str(message._message_id) + f" *brews a cup of{steaming} {random.choice(tea_flavors)} tea for @{user}*"
 
 def cmd_recents(args, message):
-	return "\n".join([msg.user.name + ": " + msg.content for msg in recent_messages[len(recent_messages)-20:]])
+    return "\n".join([msg.user.name + ": " + msg.content for msg in recent_messages[len(recent_messages)-20:]])
 
 browser = None
 def pass_browser(obj):
-	global browser
-	browser = obj
+    global browser
+    browser = obj
 
 def cmd_delete(args, message):
-	global browser
-	for arg in args:
-		if arg.isnumeric():
-			try:
-				browser.delete_message(int(arg))
-			except:
-   				logging.exception("delete_message")
-   				return "Something went wrong while deleting message " + arg
+    global browser
+    for arg in args:
+        if arg.isnumeric():
+            try:
+                browser.delete_message(int(arg))
+            except:
+                logging.exception("delete_message")
+                return "Something went wrong while deleting message " + arg
    
-	return "Done"
-
-
-
-
-
+    return "Done"
