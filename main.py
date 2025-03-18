@@ -138,7 +138,7 @@ def on_message(msg, client):
 			message.message.reply("Something went wrong!")
 		
 	
-	if html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
+	if message.content and html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
 	tools.log_event(tools.get_time(), "new_message", html.unescape(message.user.name), html.unescape(message.content))
 
 	if message.user.name != "PetlinBOT":
