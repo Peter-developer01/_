@@ -810,11 +810,11 @@ def cmd_read(args, message):
                 msg_arr.append(str(element[0])[22:].replace("</div>", "").strip())
             else:
                 # spaces   intentional
-                msg_arr.append(f" {msg_id}: message not found. ")
+                msg_arr.append(f" `{msg_id}: message not found.` ")
         except:
-            msg_arr.append(f"{msg_id}: not a valid ID.")
+            msg_arr.append(f" `{msg_id}: not a valid ID.` ")
 
-    return " ".join(msg_arr)
+    return "".join(msg_arr)
 
 
 API_IMG2TXT = "https://api-inference.huggingface.co/models/Salesforce/blip-image-captioning-large"
