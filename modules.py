@@ -798,22 +798,23 @@ def fred(string, bones):
 def cmd_read(args, message):
     if len(args) == 0:
         return "Please provide a valid message ID."
-
-    msg_id = args[0]
-    repl = ":" + str(message._message_id) + " "
-    try:
-        msg_id = int(msg_id)
-    except:
-        return repl + "You have entered wrong message ID!"
-
+    msg_arr = []
     url = f"https://chat.{HOST}/messages/{msg_id}/history"
+    for msg_id in args:
+        try:
+            msg_id = int(msg_id)
+            content = requests.get(url)
+            if content:
+                soup = BeautifulSoup(content.text, "html.parser")
+                element = soup.select(".message .content")
+                msg_arr.append(str(element[0])[22:].replace("</div>", "").strip())
+            else:
+                # spaces   intentional
+                msg_arr.append(f" {msg_id}: message not found. ")
+        except:
+            msg_arr.append(f"{msg_id}: not a valid ID.")
 
-    content = requests.get(url)
-    if content:
-        soup = BeautifulSoup(content.text, "html.parser")
-        element = soup.select(".message .content")
-        return repl + str(element[0])[22:].replace("</div>", "").strip()
-    return repl + args[0] + ": message not found."
+    return " ".join(msg_arr)
 
 
 API_IMG2TXT = "https://api-inference.huggingface.co/models/Salesforce/blip-image-captioning-large"
