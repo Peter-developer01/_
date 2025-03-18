@@ -799,9 +799,9 @@ def cmd_read(args, message):
     if len(args) == 0:
         return "Please provide a valid message ID."
     msg_arr = []
-    url = f"https://chat.{HOST}/messages/{msg_id}/history"
     for msg_id in args:
         try:
+            url = f"https://chat.{HOST}/messages/{msg_id}/history"
             msg_id = int(msg_id)
             content = requests.get(url)
             if content:
