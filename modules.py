@@ -577,7 +577,7 @@ def cmd_hang_stats(args, message):
         if not id_or_name: index += 1
     return return_string or (f"No users found matching \"{id_or_name}\"." if id_or_name else "No users have played Hangman yet.")
 
-def cmd_load():
+def cmd_load(args, message):
     global hang_users
     if message.user.id != 595292: return "Unprivileged"
     hang_users = load_hang_data()
