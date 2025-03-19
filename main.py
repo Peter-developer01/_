@@ -167,7 +167,7 @@ def on_message(msg, client):
 						room.send_message(v)
 				else: room.send_message(reply)
 			else:
-				if (message.content.lower().startswith(config.COMMAND_PREFIX + "hang ") or message.content.lower().startswith(config.COMMAND_PREFIX + "hang ")):
+				if (message.content.lower().startswith(config.COMMAND_PREFIX + "hang ") or message.content.lower().startswith(config.COMMAND_PREFIX + "h ")):
 					room.send_message(reply.replace("\\*", "*"))
 				else:
 					reply = md(reply).replace("\\*", "*")
