@@ -546,6 +546,7 @@ def cmd_hang_stats(args, message):
     return_string = ""
     index = 0
     id_or_name = " ".join(args) if len(args) > 0 else None
+    if not id_or_name: return "You can't request full stats, as they will seriously clutter up the room."
 
     sorted_users = {k: v for k, v in sorted(hang_users.items(), key=lambda item: item[1]["hang_reputation"], reverse=True)}
     for user in sorted_users:
@@ -574,7 +575,7 @@ def cmd_hang_stats(args, message):
         return_string += f"\n"
         return_string += f"{pronoun_plural.capitalize()} hangman reputation is {hang_users[user]['hang_reputation']}."
         if not id_or_name: index += 1
-    return return_string or (f"No users found matching \"{id_or_name}\"." if id_or_name else "You can't request full stats, as they will seriously clutter up the room.")
+    return return_string or (f"No users found matching \"{id_or_name}\"." if id_or_name else "No users have played Hangman yet.")
 
 def cmd_hang_setpronouns(args, message):
     if len(args) < 1: return "Please specify a pronoun or pronoun ID (1 = they/them, 2 = he/him, 3 = she/her)."
