@@ -550,7 +550,7 @@ def cmd_hang_stats(args, message):
 
     sorted_users = {k: v for k, v in sorted(hang_users.items(), key=lambda item: item[1]["hang_reputation"], reverse=True)}
     for user in sorted_users:
-        if id_or_name and id_or_name != str(user) and id_or_name not in hang_users[user]["name"]: continue
+        if id_or_name and id_or_name != str(user) and id_or_name not in hang_users[user]["name"].lower().replace(" ", ""): continue
         pronouns = hang_users[user]["pronouns"] if "pronouns" in hang_users[user] else "they/them"
         pronoun_singular = ""
         pronoun_plural = ""
