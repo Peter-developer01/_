@@ -439,36 +439,6 @@ hang_word = random.choice(hang_words)
 hang_turns = 7
 hang_format = list("_" * len(hang_word))
 hang_failed = ""
-
-hang_pics = ['''  +---+
-      |
-      |
-      |
-     ===''', '''  +---+
-  O   |
-      |
-      |
-     ===''', '''  +---+
-  O   |
-  |   |
-      |
-     ===''', '''  +---+
-  O   |
- /|   |
-      |
-     ===''', '''  +---+
-  O   |
- /|\  |
-      |
-     ===''', '''  +---+
-  O   |
- /|\  |
- /    |
-     ===''', '''  +---+
-  O   |
- /|\  |
- / \  |
-     ===''']
 hang_man_state = 0
 hangman_in_play = False
 
@@ -489,20 +459,32 @@ def cmd_hang(args, message):
             "hang_reputation": 0,
             "pronouns": "they/them"
         }
-    elif not hangman_in_play:
+    elif not hang_users[user_id]["hangman_in_play"]:
         hang_users[user_id]["games_played"] += 1
+        hang_users[user_id]["hang_word"] = random.choice(hang_words)
+        hang_users[user_id]["hang_turns"] = 7
+        hang_users[user_id]["hang_format"] = list("_" * len(hang_word))
+        hang_users[user_id]["hang_failed"] = ""
+        hang_users[user_id]["hang_man_state"] = 0
+        hang_users[user_id]["hangman_in_play"] = True
 
-    save_hang_data()
+    if "hang_word" not in hang_users[user_id] or not hang_users[user_id]["hang_word"]:
+        hang_users[user_id]["hang_word"] = random.choice(hang_words)
+        hang_users[user_id]["hang_turns"] = 7
+        hang_users[user_id]["hang_format"] = list("_" * len(hang_word))
+        hang_users[user_id]["hang_failed"] = ""
+        hang_users[user_id]["hang_man_state"] = 0
+        hang_users[user_id]["hangman_in_play"] = True
+
     if len(args) == 0:
-        return "Usage: `/hang <letters>`"
-    hangman_in_play = True
-
+        return "Usage: `!hang <letters>`. The hangman does not listen to replies."
+    #? variable variables: hang_word, hang_turns, hang_failed, hang_format, hang_man_state
     arg_s = "".join(args).lower()
     letters = "".join(
         [letter if letter in string.ascii_lowercase else '' for letter in arg_s])
     letters = set(list(letters.lower()))
 
-    new_hang_format = hang_format
+    new_hang_format = hang_users[user_id]["hang_format"]
     for i in range(len(hang_word)):
         if new_hang_format[i] != "_":
             continue
@@ -516,11 +498,12 @@ def cmd_hang(args, message):
     if (count > 0):
         pass
 
-    hang_man_state = 7 - hang_turns
-    hang_turns -= int(count / 2) if count > 1 else count
+    hang_users[user_id]["hang_man_state"] = 7 - hang_turns
+    hang_users[user_id]["hang_turns"] -= int(count / 2) if count > 1 else count
     # hang_failed = "".join(list(set(letters + hang_failed)))
-    hang_failed = unique(hang_failed + letters)
-    hang_format = new_hang_format
+    hang_users[user_id]["hang_failed"] = unique(hang_failed + letters)
+    hang_users[user_id]["hang_format"] = new_hang_format
+    save_hang_data()
 
     lost = hang_turns <= 0
     won = "".join(hang_format) == hang_word
@@ -529,12 +512,12 @@ def cmd_hang(args, message):
 
     if lost or won:
         previous_hang_word = hang_word + ""
-        hang_word = random.choice(hang_words)
-        hang_man_state = 0
-        hang_turns = 7
-        hang_format = list("_" * len(hang_word))
-        hang_failed = ""
-        hangman_in_play = False
+        hang_users[user_id]["hang_word"] = random.choice(hang_words)
+        hang_users[user_id]["hang_man_state"] = 0
+        hang_users[user_id]["hang_turns"] = 7
+        hang_users[user_id]["hang_format"] = list("_" * len(hang_word))
+        hang_users[user_id]["hang_failed"] = ""
+        hang_users[user_id]["hangman_in_play"] = False
         if lost:
             lost_rep = hang_word_worth(previous_hang_word) / 2
             lost_rep = math.floor(lost_rep)
