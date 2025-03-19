@@ -526,8 +526,7 @@ def cmd_hang(args, message):
             save_hang_data()
             return reply_str + "You won! Your reputation has increased by " + str(gained_rep) + ". The word is " + previous_hang_word + "."
 
-    #return_string = hang_pics[hang_man_state] + "\n"
-    return_string =  "@" + message.user.name.replace(" ", "")
+    return_string =  "@" + message.user.name.replace(" ", "") + "\n"
     return_string += " ".join(hang_users[user_id]["hang_format"]) + "\n\n"
     return_string += " ".join(sorted(list(set(hang_users[user_id]["hang_failed"])))) + "\n"
     return_string += "Turns left: " + str(hang_users[user_id]["hang_turns"])
@@ -570,12 +569,12 @@ def cmd_hang_stats(args, message):
         games_forfeited = games_played - games_won - games_lost
         return_string += f"User {hang_users[user]['name']} (user id {user}):\n"
         return_string += f"- has played {games_played} time{giant_s(games_played)}\n"
-        return_string += f"""- of which, {pronoun_singular} won {games_won} time{giant_s(games_won)}{" and" if hangman_in_play else ","} lost {games_lost} time{giant_s(games_lost)}"""
-        return_string += f", and forfeited {games_forfeited} time{giant_s(games_forfeited)}." if not hangman_in_play else "."
+        return_string += f"""- of which, {pronoun_singular} won {games_won} time{giant_s(games_won)}{" and" if hang_users[user]["hangman_in_play"] else ","} lost {games_lost} time{giant_s(games_lost)}"""
+        return_string += f", and forfeited {games_forfeited} time{giant_s(games_forfeited)}." if not hang_users[user]["hangman_in_play"] else "."
         return_string += f"\n"
         return_string += f"{pronoun_plural.capitalize()} hangman reputation is {hang_users[user]['hang_reputation']}."
         if not id_or_name: index += 1
-    return return_string or (f"No users found matching \"{id_or_name}\"." if id_or_name else "No users have played Hangman yet.")
+    return return_string or (f"No users found matching \"{id_or_name}\"." if id_or_name else "You can't request full stats, as they will seriously clutter up the room.")
 
 def cmd_hang_setpronouns(args, message):
     if len(args) < 1: return "Please specify a pronoun or pronoun ID (1 = they/them, 2 = he/him, 3 = she/her)."
