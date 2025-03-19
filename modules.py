@@ -533,9 +533,9 @@ def cmd_hang(args, message):
             return reply_str + "You won! Your reputation has increased by " + str(gained_rep) + ". The word is " + previous_hang_word + "."
 
     #return_string = hang_pics[hang_man_state] + "\n"
-    return_string = " ".join(hang_format) + "\n\n"
-    return_string += " ".join(sorted(list(set(hang_failed)))) + "\n"
-    return_string += "Turns left: " + str(hang_turns)
+    return_string = " ".join(hang_users[user_id]["hang_format"]) + "\n\n"
+    return_string += " ".join(sorted(list(set(hang_users[user_id]["hang_failed"])))) + "\n"
+    return_string += "Turns left: " + str(hang_users[user_id]["hang_turns"])
 
     return_string = return_string.split("\n")
     return_string = "\n".join("    " + string for string in return_string)
