@@ -501,7 +501,7 @@ def cmd_hang(args, message):
     hang_users[user_id]["hang_man_state"] = 7 - hang_users[user_id]["hang_turns"]
     hang_users[user_id]["hang_turns"] -= int(count / 2) if count > 1 else count
     # hang_failed = "".join(list(set(letters + hang_failed)))
-    hang_users[user_id]["hang_failed"] = unique(hang_users[user_id]["hang_turns"] + letters)
+    hang_users[user_id]["hang_failed"] = unique(hang_users[user_id]["hang_failed"] + letters)
     hang_users[user_id]["hang_format"] = new_hang_format
     save_hang_data()
 
