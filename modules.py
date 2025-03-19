@@ -435,12 +435,6 @@ hang_words = []
 
 with open("words.txt", "r") as f:
     hang_words = f.read().split("\n")
-hang_word = random.choice(hang_words)
-hang_turns = 7
-hang_format = list("_" * len(hang_word))
-hang_failed = ""
-hang_man_state = 0
-hangman_in_play = False
 
 def giant_s(n):
     return "s" if n != 1 else ""
@@ -506,7 +500,7 @@ def cmd_hang(args, message):
     save_hang_data()
 
     lost = hang_users[user_id]["hang_turns"] <= 0
-    won = "".join(hang_users[user_id]["hang_format"]) == hang_word
+    won = "".join(hang_users[user_id]["hang_format"]) == hang_users[user_id]["hang_word"]
 
     reply_str = ":" + str(message._message_id) + " "
 
@@ -515,7 +509,7 @@ def cmd_hang(args, message):
         hang_users[user_id]["hang_word"] = random.choice(hang_words)
         hang_users[user_id]["hang_man_state"] = 0
         hang_users[user_id]["hang_turns"] = 7
-        hang_users[user_id]["hang_format"] = list("_" * len(hang_word))
+        hang_users[user_id]["hang_format"] = list("_" * len(hang_users[user_id]["hang_word"]))
         hang_users[user_id]["hang_failed"] = ""
         hang_users[user_id]["hangman_in_play"] = False
         if lost:
