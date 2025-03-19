@@ -463,7 +463,7 @@ def cmd_hang(args, message):
         hang_users[user_id]["games_played"] += 1
         hang_users[user_id]["hang_word"] = random.choice(hang_words)
         hang_users[user_id]["hang_turns"] = 7
-        hang_users[user_id]["hang_format"] = list("_" * len(hang_word))
+        hang_users[user_id]["hang_format"] = list("_" * len(hang_users[user_id]["hang_word"]))
         hang_users[user_id]["hang_failed"] = ""
         hang_users[user_id]["hang_man_state"] = 0
         hang_users[user_id]["hangman_in_play"] = True
@@ -472,7 +472,7 @@ def cmd_hang(args, message):
     if "hang_word" not in hang_users[user_id] or not hang_users[user_id]["hang_word"]:
         hang_users[user_id]["hang_word"] = random.choice(hang_words)
         hang_users[user_id]["hang_turns"] = 7
-        hang_users[user_id]["hang_format"] = list("_" * len(hang_word))
+        hang_users[user_id]["hang_format"] = list("_" * len(hang_users[user_id]["hang_word"]))
         hang_users[user_id]["hang_failed"] = ""
         hang_users[user_id]["hang_man_state"] = 0
 
@@ -485,33 +485,33 @@ def cmd_hang(args, message):
     letters = set(list(letters.lower()))
 
     new_hang_format = hang_users[user_id]["hang_format"]
-    for i in range(len(hang_word)):
+    for i in range(len(hang_users[user_id]["hang_word"])):
         if new_hang_format[i] != "_":
             continue
 
-        if hang_word[i] in letters:
-            new_hang_format[i] = hang_word[i]
+        if hang_users[user_id]["hang_word"][i] in letters:
+            new_hang_format[i] = hang_users[user_id]["hang_word"][i]
 
     letters = ''.join(
-        i for i in letters if i not in hang_failed and i not in hang_word)
+        i for i in letters if i not in hang_users[user_id]["hang_turns"] and i not in hang_users[user_id]["hang_word"])
     count = len(letters)
     if (count > 0):
         pass
 
-    hang_users[user_id]["hang_man_state"] = 7 - hang_turns
+    hang_users[user_id]["hang_man_state"] = 7 - hang_users[user_id]["hang_turns"]
     hang_users[user_id]["hang_turns"] -= int(count / 2) if count > 1 else count
     # hang_failed = "".join(list(set(letters + hang_failed)))
-    hang_users[user_id]["hang_failed"] = unique(hang_failed + letters)
+    hang_users[user_id]["hang_failed"] = unique(hang_users[user_id]["hang_turns"] + letters)
     hang_users[user_id]["hang_format"] = new_hang_format
     save_hang_data()
 
-    lost = hang_turns <= 0
-    won = "".join(hang_format) == hang_word
+    lost = hang_users[user_id]["hang_turns"] <= 0
+    won = "".join(hang_users[user_id]["hang_format"]) == hang_word
 
     reply_str = ":" + str(message._message_id) + " "
 
     if lost or won:
-        previous_hang_word = hang_word + ""
+        previous_hang_word = hang_users[user_id]["hang_word"] + ""
         hang_users[user_id]["hang_word"] = random.choice(hang_words)
         hang_users[user_id]["hang_man_state"] = 0
         hang_users[user_id]["hang_turns"] = 7
