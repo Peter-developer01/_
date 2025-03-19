@@ -459,7 +459,7 @@ def cmd_hang(args, message):
             "hang_reputation": 0,
             "pronouns": "they/them"
         }
-    elif not hang_users[user_id]["hangman_in_play"]:
+    elif "hangman_in_play" not in hang_users[user_id] or not hang_users[user_id]["hangman_in_play"]:
         hang_users[user_id]["games_played"] += 1
         hang_users[user_id]["hang_word"] = random.choice(hang_words)
         hang_users[user_id]["hang_turns"] = 7
@@ -468,13 +468,13 @@ def cmd_hang(args, message):
         hang_users[user_id]["hang_man_state"] = 0
         hang_users[user_id]["hangman_in_play"] = True
 
+    hang_users[user_id]["hangman_in_play"] = True
     if "hang_word" not in hang_users[user_id] or not hang_users[user_id]["hang_word"]:
         hang_users[user_id]["hang_word"] = random.choice(hang_words)
         hang_users[user_id]["hang_turns"] = 7
         hang_users[user_id]["hang_format"] = list("_" * len(hang_word))
         hang_users[user_id]["hang_failed"] = ""
         hang_users[user_id]["hang_man_state"] = 0
-        hang_users[user_id]["hangman_in_play"] = True
 
     if len(args) == 0:
         return "Usage: `!hang <letters>`. The hangman does not listen to replies."
