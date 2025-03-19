@@ -139,7 +139,7 @@ def on_message(msg, client):
 		
 	
 	if message.content and html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
-	tools.log_event(tools.get_time(), "new_message", html.unescape(message.user.name), html.unescape(message.content))
+	tools.log_event(tools.get_time(), "new_message", html.unescape(message.user.name), html.unescape(message.content or ""))
 
 	if message.user.name != "PetlinBOT":
 		check_tells(message.user)
