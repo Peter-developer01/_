@@ -577,6 +577,12 @@ def cmd_hang_stats(args, message):
         if not id_or_name: index += 1
     return return_string or (f"No users found matching \"{id_or_name}\"." if id_or_name else "No users have played Hangman yet.")
 
+def cmd_load():
+    global hang_users
+    if message.user.id != 595292: return "Unprivileged"
+    hang_users = load_hang_data()
+    return "Success"
+
 def cmd_hang_setpronouns(args, message):
     if len(args) < 1: return "Please specify a pronoun or pronoun ID (1 = they/them, 2 = he/him, 3 = she/her)."
     first_arg = int(args[0]) if args[0].isnumeric() else args[0]
