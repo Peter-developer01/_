@@ -103,7 +103,7 @@ def on_message(msg, client):
 		if msg.user.id in ignusers: return
 	except:
 		print("Duh ;)")
-	
+	if not msg.user: return
 	message = msg
 	try:
 		tools.update_status(message.user.id, message.user.name)
