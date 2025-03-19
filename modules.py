@@ -493,7 +493,7 @@ def cmd_hang(args, message):
             new_hang_format[i] = hang_users[user_id]["hang_word"][i]
 
     letters = ''.join(
-        i for i in letters if i not in hang_users[user_id]["hang_turns"] and i not in hang_users[user_id]["hang_word"])
+        i for i in letters if i not in hang_users[user_id]["hang_failed"] and i not in hang_users[user_id]["hang_word"])
     count = len(letters)
     if (count > 0):
         pass
