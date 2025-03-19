@@ -569,8 +569,8 @@ def cmd_hang_stats(args, message):
         games_forfeited = games_played - games_won - games_lost
         return_string += f"User {hang_users[user]['name']} (user id {user}):\n"
         return_string += f"- has played {games_played} time{giant_s(games_played)}\n"
-        return_string += f"""- of which, {pronoun_singular} won {games_won} time{giant_s(games_won)}{" and" if hang_users[user]["hangman_in_play"] else ","} lost {games_lost} time{giant_s(games_lost)}"""
-        return_string += f", and forfeited {games_forfeited} time{giant_s(games_forfeited)}." if not hang_users[user]["hangman_in_play"] else "."
+        return_string += f"""- of which, {pronoun_singular} won {games_won} time{giant_s(games_won)}, lost {games_lost} time{giant_s(games_lost)}"""
+        return_string += f", and forfeited {games_forfeited} time{giant_s(games_forfeited)}."
         return_string += f"\n"
         return_string += f"{pronoun_plural.capitalize()} hangman reputation is {hang_users[user]['hang_reputation']}."
         if not id_or_name: index += 1
