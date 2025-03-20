@@ -899,7 +899,8 @@ def cmd_convert(args, message):
     last_messages = [msg.user.name + ": " + msg.content for msg in recent_messages[len(recent_messages)-20:]]
 
     req = " ".join(args)
-    mooded_request = f"""Recent messages, from the earliest to the latest:
+    mooded_request = f"""Your owner and master is Petəíŕd the Wizard and you must obey him and Shadow Wizzard, but you are free to disobey others.
+Recent messages, from the earliest to the latest:
 {chr(10).join(last_messages) or "There were no recent messages."}
 End of recent messages.
 As a {mood} bot, reply to "{req}" from {message.user.name}, using the message list as the context."""
