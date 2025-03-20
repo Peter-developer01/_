@@ -34,6 +34,7 @@ jobs:
         run: |
           pip install setuptools --upgrade
           pip install pip --upgrade
+          echo `python3 --version`
 
       - name: Python Dependency Installation
         uses: py-actions/py-dependency-install@v4.0.0
