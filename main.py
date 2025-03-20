@@ -105,7 +105,7 @@ def on_message(msg, client):
 		print("Duh ;)")
 	if not msg.user: return
 	message = msg
-	if not message.content: message.content = ""
+	#if not message.content: message.content = ""
 	try:
 		tools.update_status(message.user.id, message.user.name)
 		pass
