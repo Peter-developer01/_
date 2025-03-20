@@ -103,9 +103,8 @@ def on_message(msg, client):
 		if msg.user.id in ignusers: return
 	except:
 		print("Duh ;)")
-	if not msg.user: return
 	message = msg
-	#if not message.content: message.content = ""
+
 	try:
 		tools.update_status(message.user.id, message.user.name)
 		pass
@@ -115,6 +114,7 @@ def on_message(msg, client):
 	if not isinstance(message, chatexchange.events.MessagePosted) and not isinstance(message, chatexchange.events.MessageEdited):
 		other_action(message)
 		return
+	if not msg.user: return
 	modules.add_message(message)
 	if message.content and "@petl" in message.content.lower() and message.user.id != 375672 and message.user.id != 579700: # ignonrgin oaky and myself
 		try:
