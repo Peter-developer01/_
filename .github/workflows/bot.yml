@@ -32,7 +32,7 @@ jobs:
 
       - name: Upgrade pip packages
         run: |
-          pip install setuptools --upgrade
+          pip install setuptools
           pip install pip --upgrade
           echo `python3 --version`
 
