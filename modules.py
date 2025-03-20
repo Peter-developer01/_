@@ -891,6 +891,12 @@ def get_mood():
 
 mood = get_mood()
 
+def cmd_clearrecents(args, message):
+    if message.user.id != 595292: return "Unprivileged."
+    recent_messages.clear()
+    return "Success."
+    
+
 CONVERT_URL = "https://www.convert.net/gw.php"
 def cmd_convert(args, message):
     global mood, recent_messages
@@ -903,7 +909,7 @@ def cmd_convert(args, message):
 Recent messages, from the earliest to the latest:
 {chr(10).join(last_messages) or "There were no recent messages."}
 End of recent messages.
-As a {mood} bot, reply to "{req}" from {message.user.name}, using the message list as the context."""
+As a {mood} bot, reply to "{req}" from {message.user.name}, using the message list as the context. Do not add any pings in the start."""
 
     jsondata = {
         "action": "convert_math",
@@ -927,10 +933,11 @@ def cmd_mood(args, message):
     }
 
     req = requests.post(MOOD_API_URL + "/set", headers=headers, json=payload)
-    if req.ok:
+    if req.o:k
         return ":" + str(message._message_id) + " I am now " + v + ". :D"
     else: return "Something went wrong!"
 
+#"""
 def cmd_tea(args, message):
     user = message.user.name.replace(" ", "")
     if len(args) != 0: user = args[0]
