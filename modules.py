@@ -970,3 +970,24 @@ def cmd_delete(args, message):
                 return "Something went wrong while deleting message " + arg
    
     return "Done"
+
+def cmd_randomchoice(args, message):
+    if len(args) == 0:
+        return "Not enough arguments."
+
+    return random.choice(args)
+
+def cmd_randomint():
+    if len(args) < 2:
+        return "2 arguments expected, {len(args)} given."
+
+    [first, second] = args[:2]
+    if not first.isnumeric() or not second.isnumeric():
+        return "Both arguments must be a number."
+    
+    first = int(first)
+    second = int(second)
+    if first > second:
+        [first, second] = [second, first]
+
+    return random.randint(first, second)
