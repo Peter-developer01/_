@@ -605,11 +605,11 @@ def unique(str):
 
 
 # Image generation
-SF_2_API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-2"
-SF_1_4_API_URL = "https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-4"
-SF_1_5_API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
-OJ_API_URL = "https://api-inference.huggingface.co/models/prompthero/openjourney"
-OJ_V4_API_URL = "https://api-inference.huggingface.co/models/prompthero/openjourney-v4"
+SF_2_API_URL = "https://router.huggingface.co/hf-inference/models/stabilityai/stable-diffusion-2"
+SF_1_4_API_URL = "https://router.huggingface.co/hf-inference/models/CompVis/stable-diffusion-v1-4"
+SF_1_5_API_URL = "https://router.huggingface.co/hf-inference/models/runwayml/stable-diffusion-v1-5"
+OJ_API_URL = "https://router.huggingface.co/hf-inference/models/prompthero/openjourney"
+OJ_V4_API_URL = "https://router.huggingface.co/hf-inference/models/prompthero/openjourney-v4"
 API_URLS = [OJ_API_URL, OJ_V4_API_URL,
             SF_2_API_URL, SF_1_4_API_URL, SF_1_5_API_URL]
 API_URL = API_URLS[0]
