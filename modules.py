@@ -612,7 +612,7 @@ OJ_API_URL = "https://router.huggingface.co/hf-inference/models/prompthero/openj
 OJ_V4_API_URL = "https://router.huggingface.co/hf-inference/models/prompthero/openjourney-v4"
 API_URLS = [OJ_API_URL, OJ_V4_API_URL,
             SF_2_API_URL, SF_1_4_API_URL, SF_1_5_API_URL]
-API_URL = API_URLS[0]
+API_URL = API_URLS[2]
 headers = {"Authorization": "Bearer " + API_KEY}
 upload_url = 'http://peterkolosov.pythonanywhere.com/upload'
 
