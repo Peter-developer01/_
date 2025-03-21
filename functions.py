@@ -29,6 +29,7 @@ def command(message, raw_message):
 	if not message.startswith(COMMAND_PREFIX): return
 
 	raw_message = nest(raw_message)
+	message = raw_message.content
 	command = message.split(COMMAND_PREFIX)[1].split(" ")[0]
 	command = command.lower()
 	args = message
