@@ -56,6 +56,7 @@ UNIQUE_RIGHT_BRACKET = str(uuid.uuid4())
 UNIQUE_LEFT_BRACKET = str(uuid.uuid4())
 
 def nest(message):
+	print(message)
 	message.content = re.sub(sin_lbregex, UNIQUE_LEFT_BRACKET, message.content)
 	message.content = re.sub(sin_rbregex, UNIQUE_RIGHT_BRACKET, message.content)
 	matches = re.findall(nest_regex, message.content)
@@ -65,7 +66,7 @@ def nest(message):
 		end = start + len(match)
 		match = match[2:-2]
 		command = match.split(" ")[0]
-		answer = nest(Msg(get_answer(command, match.split()[1:], message), message.user, message.message.reply, message._message_id))
+		answer = nest(Msg(get_answer(command, match.split(" ")[1:], message), message.user, message.message.reply, message._message_id))
 		if answer.content.startswith(PREFIX + " "): answer.content = answer.content[len(PREFIX) + 1:]
 		answer = re.sub(reply_regex, "", answer.content)
 		print(answer)
