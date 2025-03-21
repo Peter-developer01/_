@@ -121,6 +121,7 @@ def on_message(msg, client):
 			# message.message.reply("What do you need?")
 			start_ping_regex = re.compile("^@petl?i?n?b?o?t?", re.I)
 			content = re.sub(start_ping_regex, "", message.content.strip())
+			message.content = config.COMMANG_PREFIX + "content " + content
 			#ping_replace_regex = re.compile('@petli?n?b?o?t?', re.IGNORECASE)
 			#content = ping_replace_regex.sub("(ping mentioning you)", content)
 			
