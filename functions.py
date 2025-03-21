@@ -73,6 +73,6 @@ def nest(message):
 		message.content = message.content[:start] + answer + message.content[end:]
 
 	print(message.content)
-	if re.findall(nest_regex, message.content): message.content = nest(message.content)
+	if re.findall(nest_regex, message.content): message = nest(message)
 	message.content = message.content.replace(UNIQUE_LEFT_BRACKET, "{").replace(UNIQUE_RIGHT_BRACKET, "}")
 	return message
