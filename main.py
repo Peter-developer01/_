@@ -116,6 +116,7 @@ def on_message(msg, client):
 		return
 	if not msg.user: return
 	modules.add_message(message)
+	replied = False
 	if message.content and "@petl" in message.content.lower() and message.user.id != 375672 and message.user.id != 579700: # ignonrgin oaky and myself
 		try:
 			# message.message.reply("What do you need?")
@@ -135,6 +136,7 @@ def on_message(msg, client):
 					for v in l:
 						room.send_message(html.unescape(v))
 				else: room.send_message(html.unescape(reply))
+			replied = True
 		except:
 			logging.exception("on mention")
 			message.message.reply("Something went wrong!")
@@ -156,6 +158,7 @@ def on_message(msg, client):
 	except:
 		pass
 
+	if replied: return
 	try:
 		#reply = html.unescape(functions.command(message.content, message))
 		reply = functions.command(message.content, message)
