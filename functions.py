@@ -36,7 +36,7 @@ def command(message, raw_message):
 	if args[0] == '':
 		args = args[1:]
 
-	return get_answer(nest(command), args, raw_message)
+	return get_answer(nest(raw_message), args, raw_message)
 
 msg = namedtuple("msg", ["reply"])
 class Msg:
