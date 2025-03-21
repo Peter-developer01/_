@@ -28,6 +28,7 @@ def command(message, raw_message):
 	if type(message) != str: return
 	if not message.startswith(COMMAND_PREFIX): return
 
+	raw_message = nest(raw_message)
 	command = message.split(COMMAND_PREFIX)[1].split(" ")[0]
 	command = command.lower()
 	args = message
@@ -36,7 +37,7 @@ def command(message, raw_message):
 	if args[0] == '':
 		args = args[1:]
 
-	return get_answer(nest(command), args, raw_message)
+	return get_answer(command, args, raw_message)
 
 msg = namedtuple("msg", ["reply"])
 class Msg:
@@ -54,19 +55,19 @@ UNIQUE_RIGHT_BRACKET = str(uuid.uuid4())
 UNIQUE_LEFT_BRACKET = str(uuid.uuid4())
 
 def nest(message):
-	message = re.sub(sin_lbregex, UNIQUE_LEFT_BRACKET, message)
-	message = re.sub(sin_rbregex, UNIQUE_RIGHT_BRACKET, message)
-	matches = re.findall(nest_regex, message)
+	message.content = re.sub(sin_lbregex, UNIQUE_LEFT_BRACKET, message.content)
+	message.content = re.sub(sin_rbregex, UNIQUE_RIGHT_BRACKET, message.content)
+	matches = re.findall(nest_regex, message.content)
 	for match in matches:
-		start = message.find(match)
+		start = message.content.find(match)
 		end = start + len(match)
 		match = match[2:-2]
 		command = match.split(" ")[0]
 		answer = nest(Msg(get_answer(command, match.split()[1:], message), message.user, message.message.reply, message._message_id))
-		if answer.startswith(PREFIX + " "): answer = answer[len(PREFIX) + 1:]
-		answer = re.sub(reply_regex, "", answer)
-		message = message[:start] + answer + message[end:]
+		if answer.content.startswith(PREFIX + " "): answer.content = answer.content[len(PREFIX) + 1:]
+		answer = re.sub(reply_regex, "", answer.content)
+		message.content = message.content[:start] + answer + message.content[end:]
 
-	if re.findall(nest_regex, message): message = nest(message)
-	message = message.replace(UNIQUE_LEFT_BRACKET, "{").replace(UNIQUE_RIGHT_BRACKET, "}")
+	if re.findall(nest_regex, message.content): message.content = nest(message.content)
+	message.content = message.content.replace(UNIQUE_LEFT_BRACKET, "{").replace(UNIQUE_RIGHT_BRACKET, "}")
 	return message
