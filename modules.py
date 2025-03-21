@@ -977,7 +977,7 @@ def cmd_randomchoice(args, message):
 
     return random.choice(args)
 
-def cmd_randomint():
+def cmd_randomint(args, message):
     if len(args) < 2:
         return "2 arguments expected, {len(args)} given."
 
