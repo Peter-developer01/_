@@ -60,6 +60,7 @@ def nest(message):
 	message.content = re.sub(sin_rbregex, UNIQUE_RIGHT_BRACKET, message.content)
 	matches = re.findall(nest_regex, message.content)
 	for match in matches:
+		print(match)
 		start = message.content.find(match)
 		end = start + len(match)
 		match = match[2:-2]
@@ -67,8 +68,10 @@ def nest(message):
 		answer = nest(Msg(get_answer(command, match.split()[1:], message), message.user, message.message.reply, message._message_id))
 		if answer.content.startswith(PREFIX + " "): answer.content = answer.content[len(PREFIX) + 1:]
 		answer = re.sub(reply_regex, "", answer.content)
+		print(answer)
 		message.content = message.content[:start] + answer + message.content[end:]
 
+	print(message.content)
 	if re.findall(nest_regex, message.content): message.content = nest(message.content)
 	message.content = message.content.replace(UNIQUE_LEFT_BRACKET, "{").replace(UNIQUE_RIGHT_BRACKET, "}")
 	return message
