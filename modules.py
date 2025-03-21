@@ -990,4 +990,4 @@ def cmd_randomint(args, message):
     if first > second:
         [first, second] = [second, first]
 
-    return random.randint(first, second)
+    return str(random.randint(first, second))
