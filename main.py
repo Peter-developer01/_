@@ -134,7 +134,9 @@ def on_message(msg, client):
 		return
 	if not msg.user: return
 	if message.content:
+		pingstart = message.content.startswith("@PetlinBOT")
 		message.content = read(str(message._message_id))
+		if pingstart: message.content = "@PetlinBOT" + message.content[9:]
 	modules.add_message(message)
 	replied = False
 	if message.content and "@petl" in message.content.lower() and message.user.id != 375672 and message.user.id != 579700: # ignonrgin oaky and myself
