@@ -139,7 +139,15 @@ def on_message(msg, client):
 		if pingstart: message.content = "@PetlinBOT" + message.content[9:]
 	modules.add_message(message)
 	replied = False
-	if message.content and "@petl" in message.content.lower() and message.user.id != 375672 and message.user.id != 579700: # ignonrgin oaky and myself
+	rm_regex = re.compile(r"^:\d{8}\s(rm|del|delete|remove)$")
+	if re.match(rm_regex, message.content):
+		try:
+			functions.command(f"{config.COMMAND_PREFIX}delete {message.content[1:9]}", message)
+			replied = True
+		except:
+			message.message.reply("Unable to delete message.")
+
+	if message.content and "@petl" in message.content.lower() and message.user.id not in [375672, 579700] and not replied: # ignonrgin oaky and myself
 		try:
 			# message.message.reply("What do you need?")
 			start_ping_regex = re.compile("^@petl?i?n?b?o?t?", re.I)
@@ -184,7 +192,7 @@ def on_message(msg, client):
 	try:
 		#reply = html.unescape(functions.command(message.content, message))
 		reply = functions.command(message.content, message)
-		if reply != None and reply != False:
+		if reply != None and reply != False and reply != modules.UNIQUE_NO_OUTPUT:
 			reply = reply.replace("<span>", "").replace("</span>", "")
 			if reply.startswith("https://www.youtube.com/") or reply.startswith(":") or message.content.lower().startswith(config.COMMAND_PREFIX + "status"):
 				if len(reply) > 480:
