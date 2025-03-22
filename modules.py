@@ -982,6 +982,7 @@ def cmd_tea(args, message):
     return ":" + str(message._message_id) + f" *brews a cup of{steaming} {random.choice(tea_flavors)} tea for @{user}*"
 
 def cmd_recents(args, message):
+    if message.user.id != 595292: return "Unprivileged."
     return "\n".join([msg.user.name + ": " + msg.content for msg in recent_messages[len(recent_messages)-20:]])
 
 browser = None
@@ -994,7 +995,13 @@ def cmd_delete(args, message):
     for arg in args:
         if arg.isnumeric():
             try:
-                browser.delete_message(int(arg))
+                msg = None
+                for m in recent_messages:
+                    if m._message_id == int(arg):
+                        msg = m
+                        break
+                if msg:
+                    msg.delete()
             except:
                 logging.exception("delete_message")
                 return "Something went wrong while deleting message " + arg
