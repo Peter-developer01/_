@@ -144,7 +144,8 @@ def on_message(msg, client):
 	rm_regex = re.compile(r"^:\d{8}\s(rm|del|delete|remove)$")
 	if re.findall(rm_regex, old_content) and message.content.startswith("@PetlinBOT"):
 		try:
-			functions.command(f"{config.COMMAND_PREFIX}delete {message.content[1:9]}", message)
+			#functions.command(f"{config.COMMAND_PREFIX}delete {message.content[1:9]}", message)
+			modules.cmd_delete([old_content[1:9]], message)
 			replied = True
 		except:
 			logging.exception("on reply rm")
