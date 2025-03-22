@@ -294,12 +294,19 @@ def cmd_why(args, message):
 
 def cmd_shuffle(args, message):
     args = " ".join(args)
+    newlined = False
     if "\n" in args:
-        args = args.split("\n")
-    else: args = args.split(" ")
-    random.shuffle(args)
-    return " ".join(args)
+        newlined = True
+    args = args.split("\n" if newlined else " ")
+    if newlined:
+        args = [" ".join(shuffle(line.split(" "))) for line in args]
+    else:
+        random.shuffle(args)
+    return "\n".join(args) if newlined else " ".join(args)
 
+def shuffle(array): # HELLO PYTHONISTAS!
+    random.shuffle(array)
+    return array
 
 def cmd_translate(args, message):
     def format_request(query, original_lang, translate_to, email):
