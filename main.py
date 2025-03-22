@@ -103,7 +103,7 @@ def read(msg_id):
 		msg_id = msg_id.split("#")[-1]
 	elif msg_id.split("/")[-1].isdigit():
 		msg_id = msg_id.split("/")[-1]
-	url = f"https://chat.{HOST}/messages/{msg_id}/history"
+	url = f"https://chat.{config.HOST}/messages/{msg_id}/history"
 	msg_id = int(msg_id)
 	content = requests.get(url)
 	if content:
