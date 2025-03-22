@@ -38,6 +38,8 @@ with open(FOOD_EMOJI_FILE, "r") as f:
     _emojis = f.read()
 _emojis = list(_emojis)
 
+UNIQUE_NO_OUTPUT = str(uuid.uuid4())
+
 def cmd_feed(args, message):
     feed_answers = [
         "I bloody hope {0} is edible ...",
@@ -1006,7 +1008,7 @@ def cmd_delete(args, message):
                 logging.exception("delete_message")
                 return "Something went wrong while deleting message " + arg
    
-    return "Done"
+    return UNIQUE_NO_OUTPUT
 
 def cmd_randomchoice(args, message):
     if len(args) == 0:
