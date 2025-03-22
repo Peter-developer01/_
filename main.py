@@ -133,15 +133,17 @@ def on_message(msg, client):
 		other_action(message)
 		return
 	if not msg.user: return
+	old_content = message.content
 	if message.content:
 		pingstart = message.content.startswith("@PetlinBOT")
 		message.content = read(str(message._message_id))
+		old_content = message.content
 		if pingstart: message.content = "@PetlinBOT" + message.content[9:]
 	modules.add_message(message)
 	replied = False
 	rm_regex = re.compile(r"^:\d{8}\s(rm|del|delete|remove)$")
 	if message.user.id not in [579700]: message.message.reply(str(re.findall(rm_regex, message.content)))
-	if re.findall(rm_regex, message.content):
+	if re.findall(rm_regex, old_content) and message.content.startswith("@PetlinBOT"):
 		try:
 			functions.command(f"{config.COMMAND_PREFIX}delete {message.content[1:9]}", message)
 			replied = True
