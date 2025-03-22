@@ -384,7 +384,26 @@ def cmd_getallusers(args, message):
         sorted(status_dict.items(), key=lambda item: item[1]["count"], reverse=True))
     names_list = [item["name"] for item in sorted_dict.values()]
 
-    return f":{str(message._message_id)} {', '.join(names_list)}\n..."
+
+    for i in range(len(args)):
+        args[i] = args[i].lower()
+
+    pingformat = True if "pingformat" in args else False
+    userful = True if "userful" in args else False
+
+    if pingformat:
+        names_list = [name.replace(" ", "") for name in names_list]
+    if not userful:
+        new_names = []
+        user_re = re.compile(r"user\d*")
+        for i in range(len(names_list)):
+            matches = re.findall(user_re, names_list[i])
+            if matches and matches[0] == names_list[i] and names_list[i] not in ["user430580"]: continue
+            new_names.append(names_list[i])
+        names_list = new_names
+
+    return_string = ", ".join(names_list) if not pingformat else " ".join(names_list)
+    return f":{str(message._message_id)} {return_string}"
 
 # hangman
 def load_hang_data():
@@ -979,7 +998,7 @@ def cmd_randomchoice(args, message):
 
 def cmd_randomint(args, message):
     if len(args) < 2:
-        return "2 arguments expected, {len(args)} given."
+        return f"2 arguments expected, {len(args)} given."
 
     [first, second] = args[:2]
     if not first.isnumeric() or not second.isnumeric():
@@ -991,3 +1010,11 @@ def cmd_randomint(args, message):
         [first, second] = [second, first]
 
     return str(random.randint(first, second))
+
+def cmd_grep(args, message):
+    if len(args) < 2:
+        return f"At least 2 arguments expected, {len(args)} given."
+
+    word = args[0].replace("_", " ")
+    rest = " ".join(args[1:])
+    return "True" if word in rest else "False"
