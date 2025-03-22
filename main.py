@@ -15,7 +15,7 @@ import time
 import random
 import re
 import modules
-modules.pass_browser(browser)
+from bs4 import BeautifulSoup
 
 import logging
 import logging.handlers
@@ -46,6 +46,7 @@ def main():
 
 	print("(You are now in room #%s on %s.)" % (room_id, host_id))
 	tools.log_event(tools.get_time(), "bot_restart", "PetlinBOT", None)
+	modules.pass_browser(browser)
 	#room.send_message("~ PetlinBOT Online.")
 	count = 1
 	while True:
@@ -95,6 +96,23 @@ def other_action(message):
 		#check_tells(message.user)
 	elif event(chatexchange.events.UserLeft):
 		tools.log_event(tools.get_time(), "user_left", message.user.name, None)
+def read(msg_id):
+	if msg_id.isdigit():
+		msg_id = msg_id
+	elif msg_id.split("#")[-1].isdigit():
+		msg_id = msg_id.split("#")[-1]
+	elif msg_id.split("/")[-1].isdigit():
+		msg_id = msg_id.split("/")[-1]
+	url = f"https://chat.{HOST}/messages/{msg_id}/history"
+	msg_id = int(msg_id)
+	content = requests.get(url)
+	if content:
+		soup = BeautifulSoup(content.text, "html.parser")
+		element = soup.select(".message .content .message-source")
+		content = element[0].text
+		return content
+	else:
+		return f"`{msg_id}: message not found."
 
 def on_message(msg, client):
 	global functions
@@ -115,6 +133,8 @@ def on_message(msg, client):
 		other_action(message)
 		return
 	if not msg.user: return
+	if message.content:
+		message.content = read(str(message._message_id))
 	modules.add_message(message)
 	replied = False
 	if message.content and "@petl" in message.content.lower() and message.user.id != 375672 and message.user.id != 579700: # ignonrgin oaky and myself
@@ -142,7 +162,7 @@ def on_message(msg, client):
 			message.message.reply("Something went wrong!")
 		
 	
-	if message.content and html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
+	#if message.content and html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
 	tools.log_event(tools.get_time(), "new_message", html.unescape(message.user.name), html.unescape(message.content or ""))
 
 	if message.user.name != "PetlinBOT":
@@ -175,7 +195,7 @@ def on_message(msg, client):
 				if (message.content.lower().startswith(config.COMMAND_PREFIX + "hang ") or message.content.lower().startswith(config.COMMAND_PREFIX + "h ")):
 					room.send_message(reply.replace("\\*", "*"))
 				else:
-					reply = md(reply).replace("\\*", "*")
+					#reply = md(reply).replace("\\*", "*")
 					if len(reply) > 480:
 						n = 480
 						l = [reply[i:i+n] for i in range(0, len(reply), n)]
