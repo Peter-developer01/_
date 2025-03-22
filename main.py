@@ -140,11 +140,12 @@ def on_message(msg, client):
 	modules.add_message(message)
 	replied = False
 	rm_regex = re.compile(r"^:\d{8}\s(rm|del|delete|remove)$")
-	if re.match(rm_regex, message.content):
+	if re.findall(rm_regex, message.content):
 		try:
 			functions.command(f"{config.COMMAND_PREFIX}delete {message.content[1:9]}", message)
 			replied = True
 		except:
+			logging.exception("on reply rm")
 			message.message.reply("Unable to delete message.")
 
 	if message.content and "@petl" in message.content.lower() and message.user.id not in [375672, 579700] and not replied: # ignonrgin oaky and myself
