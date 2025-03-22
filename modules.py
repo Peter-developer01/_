@@ -1001,7 +1001,7 @@ def cmd_delete(args, message):
                         msg = m
                         break
                 if msg:
-                    msg.delete()
+                    msg.message.delete()
             except:
                 logging.exception("delete_message")
                 return "Something went wrong while deleting message " + arg
