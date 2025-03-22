@@ -804,13 +804,20 @@ def cmd_read(args, message):
     msg_arr = []
     for msg_id in args:
         try:
+            if msg_id.isdigit():
+                msg_id = msg_id
+            elif msg_id.split("#")[-1].isdigit():
+                msg_id = msg_id.split("#")[-1]
+            elif msg_id.split("/")[-1].isdigit():
+                msg_id = msg_id.split("/")[-1]
             url = f"https://chat.{HOST}/messages/{msg_id}/history"
             msg_id = int(msg_id)
             content = requests.get(url)
             if content:
                 soup = BeautifulSoup(content.text, "html.parser")
-                element = soup.select(".message .content")
-                msg_arr.append(str(element[0])[22:].replace("</div>", "").strip())
+                element = soup.select(".message .content .message-source")
+                content = element[0].text
+                msg_arr.append(content)
             else:
                 # spaces   intentional
                 msg_arr.append(f" `{msg_id}: message not found.` ")
