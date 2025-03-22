@@ -140,6 +140,7 @@ def on_message(msg, client):
 	modules.add_message(message)
 	replied = False
 	rm_regex = re.compile(r"^:\d{8}\s(rm|del|delete|remove)$")
+	message.message.reply(str(re.findall(rm_regex, message.content)))
 	if re.findall(rm_regex, message.content):
 		try:
 			functions.command(f"{config.COMMAND_PREFIX}delete {message.content[1:9]}", message)
