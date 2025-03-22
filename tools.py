@@ -89,7 +89,7 @@ def log_event(time, event_type, user, text):
 
 help_list = {
 	"alive": "Check if the bot is alive.",
-	"blame": "Blame someone for [insert reason here]. Syntax: //blame [reason]",
+	"blame": "Blame someone for [insert reason here]. Syntax: !blame [reason]",
 	"feed": "Makes bot eat anything you pass in the arguments.",
 	"help": "Display list of commands.",
 	"listfood": "List food that was eaten by `feed` command.",
@@ -110,13 +110,19 @@ help_list = {
 	"translate": "Translate text. Syntax: `translate [source language] [destination language] [source text]`. Both source language and destination language should be in ISO-639-1 format.",
 	"imagine": "Image generation. Uses HuggingFace.",
 	"imgmodel": "Config command. Select a model from a list of available models.",
-	"hang": "Play hangman with the bot.",
+	"hang": "Play hangman with the bot. Use hang_setpronouns to set your pronouns and hang_stats to see user stats",
+	"hang_setpronouns": "Set your pronouns, for hangman stats. Use 1/2/3 for (they/them, he/him, she/her) or specify the pronouns in a text format.",
+	"hang_stats": "Get hangman stats of a user - this command will not output all users at once, you need to provide a search string for username or an user ID.",
 	"guess": "Useless number guessing game. The bot will generate a number and you have to guess it.",
 	"img2txt": "Translate image to text (explain). The image must be in JPG format. May not work randomly because it's free.",
 	"flan": "Just for laughs. May decide to not work randomly.",
 	"log": "Get a link to logs. Syntax: [year]-[month]-[day] (should be numbers).",
 	"tell": "Tell someone something. The bot will ping the person and tell them something whenever it notices activity.",
-	"status": "Get a list of users and their activity counts."
+	"status": "Get a list of top users and their activity counts.",
+	"getallusers": "Get a list of all users. Supported arguments: pingformat (usernames stripped of spaces) and userful (include userXXXXXXX entries).",
+	"randomchoice": "Return a random argument.",
+	"randomint": "Return a random integer between [first arg] and [second arg].",
+	"grep": "Check if [first arg] (`_` converts to spaces) exists in the subsequent arguments."
 }
 
 # Left here for historical reasons.
