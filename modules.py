@@ -291,6 +291,10 @@ def cmd_why(args, message):
 
 
 def cmd_shuffle(args, message):
+    args = " ".join(args)
+    if "\n" in args:
+        args = args.split("\n")
+    else: args = args.split(" ")
     random.shuffle(args)
     return " ".join(args)
 
@@ -1000,6 +1004,11 @@ def cmd_delete(args, message):
 def cmd_randomchoice(args, message):
     if len(args) == 0:
         return "Not enough arguments."
+
+    args = " ".join(args)
+    if "\n" in args:
+        args = args.split("\n")
+    else: args = args.split(" ")
 
     return random.choice(args)
 
