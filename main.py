@@ -268,7 +268,7 @@ def on_message(msg, client):
 					else:
 						room.send_message(prefix(reply))
 	except:
-		logging.exception("")
+		logging.exception("command")
 		message.message.reply("Something went wrong!")
 
 if __name__ == '__main__':
