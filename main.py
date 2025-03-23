@@ -240,9 +240,9 @@ def on_message(msg, client):
 	if replied: return
 	def nowrap(content):
 		content = content.lower()
-		if content.startswith(COMMAND_PREFIX + "status"): return True
-		elif content.startswith(COMMAND_PREFIX + "hang "): return True
-		elif content.startswith(COMMAND_PREFIX + "h "): return True
+		if content.startswith(config.COMMAND_PREFIX + "status"): return True
+		elif content.startswith(config.COMMAND_PREFIX + "hang "): return True
+		elif content.startswith(config.COMMAND_PREFIX + "h "): return True
 		return False
 	try:
 		#reply = html.unescape(functions.command(message.content, message))
