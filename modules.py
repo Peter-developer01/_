@@ -56,7 +56,7 @@ def register_afk_user(user, reason):
         "reason": reason
     }
 
-    res = requests.post(AFK_API_URL + "/register", json={
+    requests.post(AFK_API_URL + "/register", json={
         "key": PA_API_KEY,
         "user_id": user.id,
         "username": user.name,
@@ -332,11 +332,13 @@ def cmd_why(args, message):
 
 def cmd_shuffle(args, message):
     args = " ".join(args)
+    newlined = False
     if "\n" in args:
+        newlined = True
         args = args.split("\n")
     else: args = args.split(" ")
     random.shuffle(args)
-    return " ".join(args)
+    return "\n".join(args) if newlined else " ".join(args)
 
 
 def cmd_translate(args, message):
