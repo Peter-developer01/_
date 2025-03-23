@@ -189,12 +189,14 @@ def on_message(msg, client):
 			logging.exception("on reply rm")
 			message.message.reply("Unable to delete message.")
 
+	old = message.content + ""
 	if message.content and "@petl" in message.content.lower() and message.user.id not in [375672, 579700] and not replied: # ignonrgin oaky and myself
 		try:
+			old = message.content + ""
 			# message.message.reply("What do you need?")
 			start_ping_regex = re.compile("^@petl?i?n?b?o?t?", re.I)
 			content = re.sub(start_ping_regex, "", message.content.strip())
-			content = config.COMMAND_PREFIX + "convert " + content
+			message.content = config.COMMAND_PREFIX + "convert " + content
 			#ping_replace_regex = re.compile('@petli?n?b?o?t?', re.IGNORECASE)
 			#content = ping_replace_regex.sub("(ping mentioning you)", content)
 			
@@ -212,7 +214,7 @@ def on_message(msg, client):
 		except:
 			logging.exception("on mention")
 			message.message.reply("Something went wrong!")
-		
+	message.content = old
 	
 	#if message.content and html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
 	if reply_id:
