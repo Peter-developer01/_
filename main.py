@@ -238,23 +238,28 @@ def on_message(msg, client):
 		pass
 
 	if replied: return
+	def nowrap(content):
+		content = content.lower()
+		if content.startswith(COMMAND_PREFIX + "status"): return True
+		elif content.startswith(COMMAND_PREFIX + "hang "): return True
+		elif content.startswith(COMMAND_PREFIX + "h "): return True
+		return False
 	try:
 		#reply = html.unescape(functions.command(message.content, message))
 		reply = functions.command(message.content, message)
 		if reply != None and reply != False and reply != modules.UNIQUE_NO_OUTPUT:
 			reply = reply.replace("<span>", "").replace("</span>", "")
 			if reply.startswith("https://www.youtube.com/") or reply.startswith(":") or message.content.lower().startswith(config.COMMAND_PREFIX + "status"):
-				if len(reply) > 480:
+				if len(reply) > 480 and not nowrap(message.content):
 					n = 480
 					l = [reply[i:i+n] for i in range(0, len(reply), n)]
 					for v in l:
 						room.send_message(v)
 				else: room.send_message(reply)
 			else:
-				if (message.content.lower().startswith(config.COMMAND_PREFIX + "hang ") or message.content.lower().startswith(config.COMMAND_PREFIX + "h ")):
+				if nowrap(message.content):
 					room.send_message(reply.replace("\\*", "*"))
 				else:
-					#reply = md(reply).replace("\\*", "*")
 					if len(reply) > 480:
 						n = 480
 						l = [reply[i:i+n] for i in range(0, len(reply), n)]
