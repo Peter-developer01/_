@@ -58,7 +58,7 @@ def register_afk_user(user, reason):
 
     requests.post(AFK_API_URL + "/register", json={
         "key": PA_API_KEY,
-        "user_id": user.id,
+        "user_id": str(user.id),
         "username": user.name,
         "reason": reason
     })
@@ -67,7 +67,7 @@ def unregister_afk_user(user):
     afk_users.pop(str(user.id), None)
     requests.post(AFK_API_URL + "/unregister", json={
         "key": PA_API_KEY,
-        "user_id": user.id
+        "user_id": str(user.id)
     })
 
 def is_afk(user):
