@@ -77,6 +77,20 @@ def check_tells(user):
 	
 	return 0
 
+def check_pings(content):
+	ping_regex = "(?<!@)@{0}(?![\w-])"
+
+	def pingify(name):
+		return name[:3] + "".join([l + "?" for l in name[3:]])
+
+	notifications = []
+	for user_id in modules.afk_users:
+		user = modules.afk_users[user_id]
+		pings = re.findall(re.compile(ping_regex.format(pingify(user["name"].replace(" ", "").lower()))), content.lower())
+		if len(pings) > 0:
+			notifications.append([user["name"], user["reason"]])
+	return notifications
+
 def other_action(message):
 	def event(event_name):
 		return isinstance(message, event_name)
@@ -96,6 +110,7 @@ def other_action(message):
 		#check_tells(message.user)
 	elif event(chatexchange.events.UserLeft):
 		tools.log_event(tools.get_time(), "user_left", message.user.name, None)
+
 def read(msg_id):
 	if msg_id.isdigit():
 		msg_id = msg_id
@@ -135,10 +150,24 @@ def on_message(msg, client):
 	if not msg.user: return
 	old_content = message.content
 	if message.content:
+		if modules.is_afk(message.user):
+			modules.unregister_afk_user(message.user)
+			if not message.content.startswith(config.COMMAND_PREFIX + "afk"):
+				message.message.reply("Welcome back!")
 		pingstart = message.content.startswith("@PetlinBOT")
+		maybe_ping = message.content.split(" ")[0]
 		message.content = read(str(message._message_id))
 		old_content = message.content
+		if maybe_ping and maybe_ping.startswith("@") and re.findall(r"^:\d{8}\s", message.content): old_content = maybe_ping + old_content[9:]
 		if pingstart: message.content = "@PetlinBOT" + message.content[9:]
+		
+		reply_notifications = ""
+		ping_notifications = check_pings(old_content)
+		for notification in ping_notifications:
+			reply_notifications += f"{notification[0]} is away: {notification[1]}\n"
+		reply_notifications = reply_notifications[:-1]
+		if reply_notifications:
+			message.message.reply(reply_notifications)
 	modules.add_message(message)
 	replied = False
 	rm_regex = re.compile(r"^:\d{8}\s(rm|del|delete|remove)$")
