@@ -149,6 +149,8 @@ def on_message(msg, client):
 		return
 	if not msg.user: return
 	old_content = message.content
+	pingstart = False
+	reply_id = None
 	if message.content:
 		if modules.is_afk(message.user):
 			modules.unregister_afk_user(message.user)
@@ -158,15 +160,22 @@ def on_message(msg, client):
 		maybe_ping = message.content.split(" ")[0]
 		message.content = read(str(message._message_id))
 		old_content = message.content
+		ids = re.findall(r"^:\d{8}\s", message.content)
+		if ids:
+			try:
+				reply_id = int(ids[0][1:9])
+			except:
+				logging.exception("")
 		if maybe_ping and maybe_ping.startswith("@") and re.findall(r"^:\d{8}\s", message.content): old_content = maybe_ping + old_content[9:]
 		if pingstart: message.content = "@PetlinBOT" + message.content[9:]
 		
 		reply_notifications = ""
 		ping_notifications = check_pings(old_content)
 		for notification in ping_notifications:
-			reply_notifications += f"{notification[0]} is away: {notification[1]}\n"
+			reason = notification[1]
+			reply_notifications += f"{notification[0]} is away{': ' + reason if reason else ''}{reason}\n"
 		reply_notifications = reply_notifications[:-1]
-		if reply_notifications:
+		if reply_notifications and message.user.id != 579700:
 			message.message.reply(reply_notifications)
 	modules.add_message(message)
 	replied = False
@@ -206,6 +215,9 @@ def on_message(msg, client):
 		
 	
 	#if message.content and html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
+	if reply_id:
+		message.content = message.content.split(" ")[1:]
+		message.content = str(reply_id) + " " + " ".join(message.content)
 	tools.log_event(tools.get_time(), "new_message", html.unescape(message.user.name), html.unescape(message.content or ""))
 
 	if message.user.name != "PetlinBOT":
