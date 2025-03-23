@@ -217,7 +217,7 @@ def on_message(msg, client):
 	#if message.content and html.unescape(message.content).startswith("<div class="): message.content = message.content[18:-6]
 	if reply_id:
 		message.content = message.content.split(" ")[1:]
-		message.content = ":" + str(reply_id) + " ".join(message.content)
+		message.content = ":" + str(reply_id) + " " +  " ".join(message.content)
 	tools.log_event(tools.get_time(), "new_message", html.unescape(message.user.name), html.unescape(message.content or ""), message_id=message._message_id)
 
 	if message.user.name != "PetlinBOT":
