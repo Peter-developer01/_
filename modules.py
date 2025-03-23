@@ -1,5 +1,6 @@
 from config import *
 from tools import config
+from datetime import datetime
 import tools
 import random
 import requests
@@ -40,13 +41,50 @@ _emojis = list(_emojis)
 
 UNIQUE_NO_OUTPUT = str(uuid.uuid4())
 
+def load_afk_users():
+    content = requests.get(AFK_API_URL + "/get")
+    print(content.text)
+    return content.json()
+afk_users = {}
+try:
+    afk_users = load_afk_users()
+except:
+    logging.exception("load_afk_users")
+def register_afk_user(user, reason):
+    afk_users[str(user.id)] = {
+        "name": user.name,
+        "reason": reason
+    }
+
+    res = requests.post(AFK_API_URL + "/register", json={
+        "key": PA_API_KEY,
+        "user_id": user.id,
+        "username": user.name,
+        "reason": reason
+    })
+
+def unregister_afk_user(user):
+    afk_users.pop(str(user.id), None)
+    requests.post(AFK_API_URL + "/unregister", json={
+        "key": PA_API_KEY,
+        "user_id": user.id
+    })
+
+def is_afk(user):
+    return str(user.id) in afk_users
+
+def cmd_afk(args, message):
+    reason = " ".join(args)
+    register_afk_user(message.user, reason)
+    return f":{message._message_id} Cya later"
+
 def cmd_feed(args, message):
     feed_answers = [
         "I bloody hope {0} is edible ...",
         "I'm not sure I ever had {0} ...",
         "The taste of {0} is awful but it's better than nothing  ...",
         "Thanks for the {0}, appreciated!",
-        "Please recheck that {0} is food, as well I might grab a Big Mac ...",
+        "If you consider {0} to be food I might as well grab a Big Mac ...",
         "No Cake?"
     ]
 
@@ -294,19 +332,12 @@ def cmd_why(args, message):
 
 def cmd_shuffle(args, message):
     args = " ".join(args)
-    newlined = False
     if "\n" in args:
-        newlined = True
-    args = args.split("\n" if newlined else " ")
-    if newlined:
-        args = [" ".join(shuffle(line.split(" "))) for line in args]
-    else:
-        random.shuffle(args)
-    return "\n".join(args) if newlined else " ".join(args)
+        args = args.split("\n")
+    else: args = args.split(" ")
+    random.shuffle(args)
+    return " ".join(args)
 
-def shuffle(array): # HELLO PYTHONISTAS!
-    random.shuffle(array)
-    return array
 
 def cmd_translate(args, message):
     def format_request(query, original_lang, translate_to, email):
@@ -1050,3 +1081,6 @@ def cmd_grep(args, message):
     word = args[0].replace("_", " ")
     rest = " ".join(args[1:])
     return "True" if word in rest else "False"
+
+def cmd_utc(args, message):
+    return time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime())
