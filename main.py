@@ -149,6 +149,7 @@ def on_message(msg, client):
 		return
 	if not msg.user: return
 	old_content = message.content
+	clean_content = message.content
 	pingstart = False
 	reply_id = None
 	if message.content:
@@ -160,6 +161,7 @@ def on_message(msg, client):
 		maybe_ping = message.content.split(" ")[0]
 		message.content = read(str(message._message_id))
 		old_content = message.content
+		clean_content = message.content
 		ids = re.findall(r"^:\d{8}\s", message.content)
 		if ids:
 			try:
@@ -180,10 +182,10 @@ def on_message(msg, client):
 	modules.add_message(message)
 	replied = False
 	rm_regex = re.compile(r"^:\d{8}\s(rm|del|delete|remove)$")
-	if re.findall(rm_regex, old_content) and message.content.startswith("@PetlinBOT"):
+	if re.findall(rm_regex, clean_content) and message.content.startswith("@PetlinBOT"):
 		try:
 			#functions.command(f"{config.COMMAND_PREFIX}delete {message.content[1:9]}", message)
-			modules.cmd_delete([old_content[1:9]], message)
+			modules.cmd_delete([clean_content[1:9]], message)
 			replied = True
 		except:
 			logging.exception("on reply rm")
