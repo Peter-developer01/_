@@ -407,6 +407,10 @@ def cmd_ping(args, message):
 def cmd_status(args, message):
     status_dict = tools.get_status()
 
+    lines = 6
+    if len(args) > 0 and args[0].isdigit():
+        lines = int(args[0])
+
     # sort according to action status
     status_dict = dict(
         sorted(status_dict.items(), key=lambda item: item[1]["count"], reverse=True))
@@ -422,7 +426,7 @@ def cmd_status(args, message):
         statuses += "    " + str(status_dict[id]["name"]) + " " * (longest_name - len(
             status_dict[id]["name"])) + "   |   " + str(status_dict[id]["count"]) + "\n"
 
-    return "\n".join(statuses.split("\n")[:6])
+    return "\n".join(statuses.split("\n")[:lines])
 
 def cmd_getallusers(args, message):
     status_dict = tools.get_status()
