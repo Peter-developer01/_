@@ -57,14 +57,15 @@ def get_time():
 	date_string = "%s-%s-%s %s:%s:%s" % (_pad_time(d.tm_year), _pad_time(d.tm_mon), _pad_time(d.tm_mday), _pad_time(d.tm_hour), _pad_time(d.tm_min), _pad_time(d.tm_sec))
 	return date_string
 
-def log_event(time, event_type, user, text):
+def log_event(time, event_type, user, text, message_id=None):
 	match event_type:
 		case "new_message":
 			requests.post(LOGGER_API_URL, json={
 				"timestamp": time,
 				"event": event_type,
 				"user": user,
-				"text": text
+				"text": text,
+				"message_id": message_id
 			})
 		case "user_join":
 			requests.post(LOGGER_API_URL, json={
