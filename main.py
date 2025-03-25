@@ -175,7 +175,7 @@ def on_message(msg, client):
 		ping_notifications = check_pings(old_content)
 		for notification in ping_notifications:
 			reason = notification[1]
-			reply_notifications += f"{notification[0]} is away{': ' + reason if reason else ''}{reason}\n"
+			reply_notifications += f"{notification[0]} is away{': ' + reason if reason else ''}\n"
 		reply_notifications = reply_notifications[:-1]
 		if reply_notifications and message.user.id != 579700:
 			message.message.reply(reply_notifications)
