@@ -25,6 +25,8 @@ import urllib.parse
 import re
 import uuid
 
+ADMINS = [595292, 29968]
+
 recent_messages = []
 def add_message(msg):
     recent_messages.append(msg)
@@ -648,7 +650,7 @@ def cmd_hang_stats(args, message):
 
 def cmd_load(args, message):
     global hang_users
-    if message.user.id != 595292: return "Unprivileged"
+    if message.user.id not in ADMINS: return "Unprivileged"
     hang_users = load_hang_data()
     return "Success"
 
@@ -968,7 +970,7 @@ def get_mood():
 mood = get_mood()
 
 def cmd_clearrecents(args, message):
-    if message.user.id != 595292: return "Unprivileged."
+    if message.user.id not in ADMINS: return "Unprivileged."
     recent_messages.clear()
     return "Success."
     
@@ -1028,7 +1030,7 @@ def cmd_tea(args, message):
     return ":" + str(message._message_id) + f" *brews a cup of{steaming} {random.choice(tea_flavors)} tea for @{user}*"
 
 def cmd_recents(args, message):
-    if message.user.id != 595292: return "Unprivileged."
+    if message.user.id not in ADMINS: return "Unprivileged."
     return "\n".join([msg.user.name + ": " + msg.content for msg in recent_messages[len(recent_messages)-20:]])
 
 browser = None
