@@ -11,8 +11,8 @@ on:
     paths:
       #- "main.py"
       - "modules.py"
-  schedule:
-    - cron: "1 */5 * * *"
+  #schedule:
+    #- cron: "1 */5 * * *"
 
 concurrency:
   group: ${{ github.ref }}
