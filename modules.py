@@ -26,6 +26,11 @@ import re
 import uuid
 
 ADMINS = [595292, 29968]
+active = False
+def pass_active(is_active):
+    global active
+    active = is_active
+    return is_active
 
 recent_messages = []
 def add_message(msg):
@@ -698,7 +703,7 @@ def cmd_imagine(args, message):
     retries = 0
     response = query({"inputs": string}, API_URL)
     if ("\"error" in str(response)):
-        message.message.reply(
+        if active: message.message.reply(
             "Due to an internal error, you might experience a long delay. Don't worry though, you will get an image soon.")
     while ("\"error" in str(response)) and retries < 15:
         print(str(response))
@@ -797,7 +802,7 @@ def cmd_guess(args, message):
         guess_turns += 1
     elif won:
         GIANT_S = "turn" if turns == 1 else "turns"
-        message.message.reply(
+        if active: message.message.reply(
             "You won in " + str(turns) + " " + GIANT_S + "!!")
 
     return to_reply

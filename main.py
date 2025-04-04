@@ -31,6 +31,15 @@ def cmdPrefix(cmd):
 
 msgs = []
 room = None
+# This bot is no longer active on Stack Exchange Chat.
+# Feel free to reach me out on GitHub.
+active = False
+modules.pass_active(active)
+
+def send_message(room, message):
+	global active
+	if active: room.send_message(message)
+	return False
 
 def main():
 	global room
@@ -47,7 +56,7 @@ def main():
 	print("(You are now in room #%s on %s.)" % (room_id, host_id))
 	tools.log_event(tools.get_time(), "bot_restart", "PetlinBOT", None)
 	modules.pass_browser(browser)
-	#room.send_message("~ PetlinBOT Online.")
+	#send_message(room, "~ PetlinBOT Online.")
 	count = 1
 	while True:
 		print("running, " + str(count))
@@ -64,7 +73,7 @@ def check_tells(user):
 		for i in range(0, len(tell_list)):
 			tell = tell_list[i]
 			if name.startswith(tell[0].lower()) or name.startswith(tell[0][1:].lower()):
-				room.send_message(prefix(f"@{user.name.replace(' ', '')}, I have a message for you from {tell[1]}: \"{tell[2]}\""))
+				send_message(room, prefix(f"@{user.name.replace(' ', '')}, I have a message for you from {tell[1]}: \"{tell[2]}\""))
 				requests.post(config.TELL_API_URL+"/remove", json={
 					"to_remove": i
 				})
@@ -103,7 +112,7 @@ def other_action(message):
 		reply = f'Not [everything](https://chat.{config.HOST}/transcript/message/{message._message_id}#{message._message_id}) is star-worthy...'
 		if not message._message_stars % 2:
 			reply = f'[Stars](https://chat.{config.HOST}/transcript/message/{message._message_id}#{message._message_id}) get removed under peer-pressure?'
-		room.send_message(prefix(reply))
+		send_message(room, prefix(reply))
 	elif event(chatexchange.events.UserEntered):
 		if not is_me(message.user.name):
 			tools.log_event(tools.get_time(), "user_join", message.user.name, None)
@@ -210,8 +219,8 @@ def on_message(msg, client):
 					n = 480
 					l = [reply[i:i+n] for i in range(0, len(reply), n)]
 					for v in l:
-						room.send_message(html.unescape(v))
-				else: room.send_message(html.unescape(reply))
+						send_message(room, html.unescape(v))
+				else: send_message(room, html.unescape(reply))
 			replied = True
 		except:
 			logging.exception("on mention")
@@ -230,7 +239,7 @@ def on_message(msg, client):
 	print(">> (%s, %s) %s" % (message.user.name, message._message_id, message.content))
 	msgs.append(message.content)
 	if "".join(msgs[-3:]) == message.content * 3:
-		room.send_message(prefix(message.content))
+		send_message(room, prefix(message.content))
 	if not message.content.startswith(config.COMMAND_PREFIX): return
 	try:
 		if message.content.strip() == config.COMMAND_PREFIX: return
@@ -254,19 +263,19 @@ def on_message(msg, client):
 					n = 480
 					l = [reply[i:i+n] for i in range(0, len(reply), n)]
 					for v in l:
-						room.send_message(v)
-				else: room.send_message(reply)
+						send_message(room, v)
+				else: send_message(room, reply)
 			else:
 				if nowrap(message.content):
-					room.send_message(reply.replace("\\*", "*"))
+					send_message(room, reply.replace("\\*", "*"))
 				else:
 					if len(reply) > 480:
 						n = 480
 						l = [reply[i:i+n] for i in range(0, len(reply), n)]
 						for v in l:
-							room.send_message(prefix(v))
+							send_message(room, prefix(v))
 					else:
-						room.send_message(prefix(reply))
+						send_message(room, prefix(reply))
 	except:
 		logging.exception("command")
 		message.message.reply("Something went wrong!")
