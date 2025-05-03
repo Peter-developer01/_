@@ -31,9 +31,8 @@ def cmdPrefix(cmd):
 
 msgs = []
 room = None
-# This bot is no longer active on Stack Exchange Chat.
-# Feel free to reach me out on GitHub.
-active = False
+# legacy stuff
+active = True
 modules.pass_active(active)
 
 def send_message(room, message):
