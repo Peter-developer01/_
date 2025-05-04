@@ -177,7 +177,7 @@ def on_message(msg, client):
 			except:
 				logging.exception("")
 		if maybe_ping and maybe_ping.startswith("@") and re.findall(r"^:\d{8}\s", message.content): old_content = maybe_ping + old_content[9:]
-		if pingstart: message.content = "@PetlinBOT" + message.content[9:]
+		if pingstart: message.content = "@PetlinBOT" + message.content[10:]
 		
 		reply_notifications = ""
 		ping_notifications = check_pings(old_content)
